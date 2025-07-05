@@ -1217,8 +1217,8 @@
                     <h2 class="card-title">Find Designers</h2>
                     <div style="display: flex; gap: 1rem; align-items: center;">
                         <button class="btn btn-secondary" onclick="toggleViewMode()">
-                            <span id="viewModeIcon">📋</span>
-                            <span id="viewModeText">Table View</span>
+                            <span id="viewModeIcon">🃏</span>
+                            <span id="viewModeText">Cards View</span>
                         </button>
                         <button class="btn btn-primary" onclick="openFilterModal()">🔍 Filter</button>
                     </div>
@@ -1264,7 +1264,7 @@
                     </div>
                 </div>
                 <!-- Cards View -->
-                <div class="designers-grid" id="cardsView">
+                <div class="designers-grid" id="cardsView" style="display: none;">
                     <div class="designer-card">
                         <div class="designer-card-header">
                             <div class="designer-card-info">
@@ -1447,7 +1447,7 @@
                 </div>
 
                 <!-- Table View -->
-                <div class="designers-table" id="tableView" style="display: none;">
+                <div class="designers-table" id="tableView">
                     <table>
                         <thead>
                             <tr>
@@ -2683,7 +2683,7 @@
         }
 
         // Designer Filter and View Functions
-        let currentViewMode = 'cards'; // 'cards' or 'table'
+        let currentViewMode = 'table'; // 'cards' or 'table'
 
         function toggleViewMode() {
             const cardsView = document.getElementById('cardsView');
