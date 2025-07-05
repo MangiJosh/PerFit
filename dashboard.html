@@ -958,6 +958,7 @@
             <nav>
                 <ul class="nav-menu">
                     <li><a href="#" class="active" onclick="showSection('dashboard', event)">📊 Dashboard</a></li>
+                    <li><a href="#" onclick="showSection('shared', event)">👥 Shared Access</a></li>
                     <li><a href="#" onclick="showSection('measurements', event)">📏 My Measurements</a></li>
                     <li><a href="#" onclick="showSection('sizes', event)">👟 My Sizes</a></li>
                     <li><a href="#" onclick="showSection('designers', event)">✂️ Find Designers</a></li>
@@ -986,7 +987,7 @@
             </div>
 
             <!-- Shared Access Section -->
-            <div class="content-card">
+            <div class="content-card" id="shared-section">
                 <div class="card-header">
                     <h2 class="card-title">Shared Access</h2>
                     <button class="btn btn-primary" onclick="openShareModal()">Add Designer</button>
@@ -1986,6 +1987,7 @@
             // Hide all sections
             const sectionIds = [
                 'dashboard-section',
+                'shared-section',
                 'measurements-section',
                 'sizes-section',
                 'designers-section',
@@ -2000,6 +2002,7 @@
             // Show selected section
             const showId =
                 section === 'dashboard' ? 'dashboard-section' :
+                section === 'shared' ? 'shared-section' :
                 section === 'measurements' ? 'measurements-section' :
                 section === 'sizes' ? 'sizes-section' :
                 section === 'designers' ? 'designers-section' :
