@@ -28,8 +28,8 @@
         }
 
         .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: none;
+            margin: 0;
             padding: 0 2rem;
             display: flex;
             justify-content: space-between;
@@ -74,11 +74,11 @@
 
         /* Main Container */
         .main-container {
-            max-width: 1200px;
-            margin: 2rem auto;
+            max-width: none;
+            margin: 2rem 0;
             padding: 0 2rem;
             display: grid;
-            grid-template-columns: 1fr 2fr;
+            grid-template-columns: 300px 1fr;
             gap: 2rem;
         }
 
@@ -89,6 +89,9 @@
             padding: 2rem;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
             height: fit-content;
+            width: 300px;
+            position: sticky;
+            top: 2rem;
         }
 
         .profile-section {
@@ -153,6 +156,7 @@
             display: flex;
             flex-direction: column;
             gap: 2rem;
+            min-width: 0;
         }
 
         .content-card {
@@ -765,6 +769,12 @@
                 grid-template-columns: 1fr;
                 gap: 1rem;
                 padding: 0 1rem;
+                margin: 1rem 0;
+            }
+
+            .sidebar {
+                width: 100%;
+                position: static;
             }
 
             .header-content {
