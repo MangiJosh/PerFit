@@ -763,6 +763,115 @@
             margin-bottom: 0.5rem;
         }
 
+        /* Filter Bar Styles */
+        .filter-bar {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            border: 1px solid #e9ecef;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .filter-group select {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            min-width: 150px;
+        }
+
+        /* Table View Styles */
+        .designers-table {
+            overflow-x: auto;
+        }
+
+        .designers-table table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .designers-table th {
+            background: linear-gradient(135deg, #2d5a27 0%, #4caf50 100%);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .designers-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+
+        .designers-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .table-designer-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .table-designer-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #2d5a27 0%, #4caf50 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .table-designer-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+
+        .table-designer-specialty {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .table-actions .btn {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .main-container {
@@ -779,6 +888,29 @@
 
             .header-content {
                 padding: 0 1rem;
+            }
+
+            .filter-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-group {
+                width: 100%;
+            }
+
+            .designers-table {
+                font-size: 0.8rem;
+            }
+
+            .designers-table th,
+            .designers-table td {
+                padding: 0.5rem;
+            }
+
+            .table-actions {
+                flex-direction: column;
+                gap: 0.25rem;
             }
 
             .measurements-grid {
@@ -946,9 +1078,56 @@
             <div class="content-card" id="designers-section" style="display:none;">
                 <div class="card-header">
                     <h2 class="card-title">Find Designers</h2>
-                    <button class="btn btn-primary">Search Designers</button>
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <button class="btn btn-secondary" onclick="toggleViewMode()">
+                            <span id="viewModeIcon">📋</span>
+                            <span id="viewModeText">Table View</span>
+                        </button>
+                        <button class="btn btn-primary" onclick="openFilterModal()">🔍 Filter</button>
+                    </div>
                 </div>
-                <div class="designers-grid">
+
+                <!-- Filter Bar -->
+                <div class="filter-bar" id="filterBar" style="display: none;">
+                    <div class="filter-controls">
+                        <div class="filter-group">
+                            <label>Location:</label>
+                            <select id="locationFilter" onchange="applyFilters()">
+                                <option value="">All Locations</option>
+                                <option value="Cape Town">Cape Town</option>
+                                <option value="Johannesburg">Johannesburg</option>
+                                <option value="Durban">Durban</option>
+                                <option value="Pretoria">Pretoria</option>
+                                <option value="Port Elizabeth">Port Elizabeth</option>
+                                <option value="Bloemfontein">Bloemfontein</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Specialization:</label>
+                            <select id="specializationFilter" onchange="applyFilters()">
+                                <option value="">All Specializations</option>
+                                <option value="Suits & Formal Wear">Suits & Formal Wear</option>
+                                <option value="Bridal Wear">Bridal Wear</option>
+                                <option value="Alterations & Repairs">Alterations & Repairs</option>
+                                <option value="Casual & Business Wear">Casual & Business Wear</option>
+                                <option value="Formal & Casual Wear">Formal & Casual Wear</option>
+                                <option value="Contemporary Fashion">Contemporary Fashion</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Rating:</label>
+                            <select id="ratingFilter" onchange="applyFilters()">
+                                <option value="">All Ratings</option>
+                                <option value="4.5">4.5+ Stars</option>
+                                <option value="4.0">4.0+ Stars</option>
+                                <option value="3.5">3.5+ Stars</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-secondary" onclick="clearFilters()">Clear Filters</button>
+                    </div>
+                </div>
+                <!-- Cards View -->
+                <div class="designers-grid" id="cardsView">
                     <div class="designer-card">
                         <div class="designer-card-header">
                             <div class="designer-card-info">
@@ -1128,6 +1307,150 @@
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <!-- Table View -->
+                <div class="designers-table" id="tableView" style="display: none;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Designer</th>
+                                <th>Location</th>
+                                <th>Specialization</th>
+                                <th>Rating</th>
+                                <th>Reviews</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="designersTableBody">
+                            <tr data-location="Cape Town" data-specialization="Suits & Formal Wear" data-rating="4.8">
+                                <td>
+                                    <div class="table-designer-info">
+                                        <div class="table-designer-avatar">MS</div>
+                                        <div>
+                                            <div class="table-designer-name">Master Stitch Tailors</div>
+                                            <div class="table-designer-specialty">Premium Tailoring</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Cape Town</td>
+                                <td>Suits & Formal Wear</td>
+                                <td>⭐ 4.8</td>
+                                <td>120</td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn btn-secondary" onclick="openViewProfileModal('ms')">View</button>
+                                        <button class="btn btn-primary" onclick="openContactModal('ms')">Contact</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-location="Johannesburg" data-specialization="Bridal Wear" data-rating="4.9">
+                                <td>
+                                    <div class="table-designer-info">
+                                        <div class="table-designer-avatar">EF</div>
+                                        <div>
+                                            <div class="table-designer-name">Elite Fashion House</div>
+                                            <div class="table-designer-specialty">Luxury Bridal</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Johannesburg</td>
+                                <td>Bridal Wear</td>
+                                <td>⭐ 4.9</td>
+                                <td>85</td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn btn-secondary" onclick="openViewProfileModal('ef')">View</button>
+                                        <button class="btn btn-primary" onclick="openContactModal('ef')">Contact</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-location="Durban" data-specialization="Alterations & Repairs" data-rating="4.6">
+                                <td>
+                                    <div class="table-designer-info">
+                                        <div class="table-designer-avatar">QT</div>
+                                        <div>
+                                            <div class="table-designer-name">Quick Tailors</div>
+                                            <div class="table-designer-specialty">Fast Service</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Durban</td>
+                                <td>Alterations & Repairs</td>
+                                <td>⭐ 4.6</td>
+                                <td>95</td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn btn-secondary" onclick="openViewProfileModal('qt')">View</button>
+                                        <button class="btn btn-primary" onclick="openContactModal('qt')">Contact</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-location="Pretoria" data-specialization="Casual & Business Wear" data-rating="4.7">
+                                <td>
+                                    <div class="table-designer-info">
+                                        <div class="table-designer-avatar">CS</div>
+                                        <div>
+                                            <div class="table-designer-name">Custom Stitches</div>
+                                            <div class="table-designer-specialty">Versatile Style</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Pretoria</td>
+                                <td>Casual & Business Wear</td>
+                                <td>⭐ 4.7</td>
+                                <td>67</td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn btn-secondary" onclick="openViewProfileModal('cs')">View</button>
+                                        <button class="btn btn-primary" onclick="openContactModal('cs')">Contact</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-location="Port Elizabeth" data-specialization="Formal & Casual Wear" data-rating="4.8">
+                                <td>
+                                    <div class="table-designer-info">
+                                        <div class="table-designer-avatar">PF</div>
+                                        <div>
+                                            <div class="table-designer-name">Perfect Fit Tailors</div>
+                                            <div class="table-designer-specialty">Perfect Fit Guarantee</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Port Elizabeth</td>
+                                <td>Formal & Casual Wear</td>
+                                <td>⭐ 4.8</td>
+                                <td>89</td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn btn-secondary" onclick="openViewProfileModal('pf')">View</button>
+                                        <button class="btn btn-primary" onclick="openContactModal('pf')">Contact</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-location="Bloemfontein" data-specialization="Contemporary Fashion" data-rating="4.6">
+                                <td>
+                                    <div class="table-designer-info">
+                                        <div class="table-designer-avatar">ST</div>
+                                        <div>
+                                            <div class="table-designer-name">Style & Thread</div>
+                                            <div class="table-designer-specialty">Modern Designs</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Bloemfontein</td>
+                                <td>Contemporary Fashion</td>
+                                <td>⭐ 4.6</td>
+                                <td>73</td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn btn-secondary" onclick="openViewProfileModal('st')">View</button>
+                                        <button class="btn btn-primary" onclick="openContactModal('st')">Contact</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
@@ -2219,6 +2542,110 @@
             document.getElementById('imageModal').classList.remove('active');
             currentGallery = [];
             currentImageIndex = 0;
+        }
+
+        // Designer Filter and View Functions
+        let currentViewMode = 'cards'; // 'cards' or 'table'
+
+        function toggleViewMode() {
+            const cardsView = document.getElementById('cardsView');
+            const tableView = document.getElementById('tableView');
+            const viewModeIcon = document.getElementById('viewModeIcon');
+            const viewModeText = document.getElementById('viewModeText');
+
+            if (currentViewMode === 'cards') {
+                // Switch to table view
+                cardsView.style.display = 'none';
+                tableView.style.display = 'block';
+                viewModeIcon.textContent = '🃏';
+                viewModeText.textContent = 'Cards View';
+                currentViewMode = 'table';
+            } else {
+                // Switch to cards view
+                tableView.style.display = 'none';
+                cardsView.style.display = 'grid';
+                viewModeIcon.textContent = '📋';
+                viewModeText.textContent = 'Table View';
+                currentViewMode = 'cards';
+            }
+        }
+
+        function openFilterModal() {
+            const filterBar = document.getElementById('filterBar');
+            if (filterBar.style.display === 'none' || filterBar.style.display === '') {
+                filterBar.style.display = 'block';
+            } else {
+                filterBar.style.display = 'none';
+            }
+        }
+
+        function applyFilters() {
+            const locationFilter = document.getElementById('locationFilter').value;
+            const specializationFilter = document.getElementById('specializationFilter').value;
+            const ratingFilter = document.getElementById('ratingFilter').value;
+
+            // Filter table rows
+            const tableRows = document.querySelectorAll('#designersTableBody tr');
+            tableRows.forEach(row => {
+                const location = row.getAttribute('data-location');
+                const specialization = row.getAttribute('data-specialization');
+                const rating = parseFloat(row.getAttribute('data-rating'));
+
+                let showRow = true;
+
+                if (locationFilter && location !== locationFilter) {
+                    showRow = false;
+                }
+                if (specializationFilter && specialization !== specializationFilter) {
+                    showRow = false;
+                }
+                if (ratingFilter && rating < parseFloat(ratingFilter)) {
+                    showRow = false;
+                }
+
+                row.style.display = showRow ? '' : 'none';
+            });
+
+            // Filter card elements
+            const designerCards = document.querySelectorAll('.designer-card');
+            designerCards.forEach(card => {
+                const location = card.querySelector('.designer-card-details span').textContent.split('•')[0].trim();
+                const specialization = card.querySelector('.designer-card-details span').textContent.split('•')[1].trim();
+                const ratingText = card.querySelector('.designer-rating span').textContent;
+                const rating = parseFloat(ratingText.replace('⭐ ', ''));
+
+                let showCard = true;
+
+                if (locationFilter && location !== locationFilter) {
+                    showCard = false;
+                }
+                if (specializationFilter && specialization !== specializationFilter) {
+                    showCard = false;
+                }
+                if (ratingFilter && rating < parseFloat(ratingFilter)) {
+                    showCard = false;
+                }
+
+                card.style.display = showCard ? '' : 'none';
+            });
+        }
+
+        function clearFilters() {
+            // Reset filter dropdowns
+            document.getElementById('locationFilter').value = '';
+            document.getElementById('specializationFilter').value = '';
+            document.getElementById('ratingFilter').value = '';
+
+            // Show all rows and cards
+            const tableRows = document.querySelectorAll('#designersTableBody tr');
+            tableRows.forEach(row => {
+                row.style.display = '';
+            });
+
+            const designerCards = document.querySelectorAll('.designer-card');
+            designerCards.forEach(card => {
+                card.style.display = '';
+            });
         }
 
         // Escrow System Functions
