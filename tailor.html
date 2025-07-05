@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tailor Dashboard - PerFit</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #2d5a27 0%, #4caf50 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .dashboard-header {
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-header h1 {
+            font-size: 2.5rem;
+            color: #2d5a27;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2d5a27;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #2d5a27 0%, #4caf50 100%);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header h3 {
+            font-size: 1.3rem;
+        }
+
+        .card-header .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        /* Client List */
+        .client-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .client-item:hover {
+            border-color: #4caf50;
+            box-shadow: 0 2px 10px rgba(76,175,80,0.1);
+        }
+
+        .client-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .client-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2d5a27 0%, #4caf50 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .client-details h4 {
+            color: #333;
+            margin-bottom: 0.2rem;
+        }
+
+        .client-details p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .client-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #4caf50;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #45a049;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #e9ecef;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #dee2e6;
+        }
+
+        .btn-small {
+            padding: 0.3rem 0.8rem;
+            font-size: 0.8rem;
+        }
+
+        /* Request Item */
+        .request-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-left: 4px solid #ffc107;
+            background: #fff9c4;
+            border-radius: 0 10px 10px 0;
+            margin-bottom: 1rem;
+        }
+
+        .request-info h4 {
+            color: #333;
+            margin-bottom: 0.2rem;
+        }
+
+        .request-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .request-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        /* Empty States */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #666;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Full Width Card */
+        .full-width-card {
+            grid-column: 1 / -1;
+        }
+
+        /* Measurements Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideIn 0.3s ease;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-header h3 {
+            color: #2d5a27;
+            font-size: 1.5rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+
+        .close-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .measurements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .measurement-item {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .measurement-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .measurement-value {
+            font-size: 1.2rem;
+            color: #4caf50;
+            font-weight: bold;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-right {
+                gap: 1rem;
+            }
+
+            .user-info span {
+                display: none;
+            }
+
+            .main-content {
+                padding: 0 1rem;
+            }
+
+            .dashboard-header h1 {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1rem;
+            }
+
+            .client-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .client-actions {
+                align-self: stretch;
+                justify-content: space-between;
+            }
+
+            .request-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .modal-content {
+                margin: 1rem;
+                width: calc(100% - 2rem);
+            }
+
+            .measurements-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">PerFit</div>
+            <div class="nav-right">
+                <div class="user-info">
+                    <div class="user-avatar">JS</div>
+                    <span>John Smith - Designer</span>
+                </div>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="dashboard-header">
+            <h1>Designer Dashboard</h1>
+            <p>Manage your clients and their measurements efficiently</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-number">12</div>
+                <div class="stat-label">Active Clients</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📏</div>
+                <div class="stat-number">8</div>
+                <div class="stat-label">Measurements Viewed Today</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏳</div>
+                <div class="stat-number">3</div>
+                <div class="stat-label">Pending Requests</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-number">25</div>
+                <div class="stat-label">Completed Orders</div>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Active Clients -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3>Active Clients</h3>
+                    <span class="badge">12 clients</span>
+                </div>
+                <div class="card-content">
+                    <div class="client-item">
+                        <div class="client-info">
+                            <div class="client-avatar">AM</div>
+                            <div class="client-details">
+                                <h4>Alice Miller</h4>
+                                <p>Shared measurements • 2 days ago</p>
+                            </div>
+                        </div>
+                        <div class="client-actions">
+                            <button class="btn btn-primary btn-small" onclick="viewMeasurements('Alice Miller')">View Measurements</button>
+                        </div>
+                    </div>
+
+                    <div class="client-item">
+                        <div class="client-info">
+                            <div class="client-avatar">BJ</div>
+                            <div class="client-details">
+                                <h4>Bob Johnson</h4>
+                                <p>Shared measurements • 1 week ago</p>
+                            </div>
+                        </div>
+                        <div class="client-actions">
+                            <button class="btn btn-primary btn-small" onclick="viewMeasurements('Bob Johnson')">View Measurements</button>
+                        </div>
+                    </div>
+
+                    <div class="client-item">
+                        <div class="client-info">
+                            <div class="client-avatar">CD</div>
+                            <div class="client-details">
+                                <h4>Carol Davis</h4>
+                                <p>Shared measurements • 3 days ago</p>
+                            </div>
+                        </div>
+                        <div class="client-actions">
+                            <button class="btn btn-primary btn-small" onclick="viewMeasurements('Carol Davis')">View Measurements</button>
+                        </div>
+                    </div>
+
+                    <div class="client-item">
+                        <div class="client-info">
+                            <div class="client-avatar">DW</div>
+                            <div class="client-details">
+                                <h4>David Wilson</h4>
+                                <p>Shared measurements • 5 days ago</p>
+                            </div>
+                        </div>
+                        <div class="client-actions">
+                            <button class="btn btn-primary btn-small" onclick="viewMeasurements('David Wilson')">View Measurements</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pending Requests -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3>Pending Requests</h3>
+                    <span class="badge">3 requests</span>
+                </div>
+                <div class="card-content">
+                    <div class="request-item">
+                        <div class="request-info">
+                            <h4>Emma Thompson</h4>
+                            <p>Requested access • 2 hours ago</p>
+                        </div>
+                        <div class="request-actions">
+                            <button class="btn btn-success btn-small" onclick="approveRequest('Emma Thompson')">Approve</button>
+                            <button class="btn btn-danger btn-small" onclick="denyRequest('Emma Thompson')">Deny</button>
+                        </div>
+                    </div>
+
+                    <div class="request-item">
+                        <div class="request-info">
+                            <h4>Frank Garcia</h4>
+                            <p>Requested access • 1 day ago</p>
+                        </div>
+                        <div class="request-actions">
+                            <button class="btn btn-success btn-small" onclick="approveRequest('Frank Garcia')">Approve</button>
+                            <button class="btn btn-danger btn-small" onclick="denyRequest('Frank Garcia')">Deny</button>
+                        </div>
+                    </div>
+
+                    <div class="request-item">
+                        <div class="request-info">
+                            <h4>Grace Lee</h4>
+                            <p>Requested access • 3 days ago</p>
+                        </div>
+                        <div class="request-actions">
+                            <button class="btn btn-success btn-small" onclick="approveRequest('Grace Lee')">Approve</button>
+                            <button class="btn btn-danger btn-small" onclick="denyRequest('Grace Lee')">Deny</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="dashboard-card full-width-card">
+            <div class="card-header">
+                <h3>Quick Actions</h3>
+            </div>
+            <div class="card-content">
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="requestAccess()">Request Client Access</button>
+                    <button class="btn btn-secondary" onclick="updateProfile()">Update Profile</button>
+                    <button class="btn btn-secondary" onclick="viewDirectory()">Browse Client Directory</button>
+                    <button class="btn btn-secondary" onclick="exportData()">Export Client Data</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Measurements Modal -->
+    <div class="modal" id="measurementsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalClientName">Client Measurements</h3>
+                <button class="close-btn" onclick="closeMeasurementsModal()">&times;</button>
+            </div>
+            <div class="measurements-grid" id="measurementsGrid">
+                <!-- Measurements will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample measurements data
+        const clientMeasurements = {
+            'Alice Miller': {
+                height: '5\'6"',
+                weight: '140 lbs',
+                neck: '14"',
+                chest: '36"',
+                waist: '28"',
+                hips: '38"',
+                shoulder: '16"',
+                armLength: '24"',
+                inseam: '30"'
+            },
+            'Bob Johnson': {
+                height: '6\'0"',
+                weight: '180 lbs',
+                neck: '16"',
+                chest: '42"',
+                waist: '34"',
+                hips: '40"',
+                shoulder: '18"',
+                armLength: '26"',
+                inseam: '32"'
+            },
+            'Carol Davis': {
+                height: '5\'4"',
+                weight: '130 lbs',
+                neck: '13"',
+                chest: '34"',
+                waist: '26"',
+                hips: '36"',
+                shoulder: '15"',
+                armLength: '23"',
+                inseam: '29"'
+            },
+            'David Wilson': {
+                height: '5\'10"',
+                weight: '170 lbs',
+                neck: '15"',
+                chest: '40"',
+                waist: '32"',
+                hips: '38"',
+                shoulder: '17"',
+                armLength: '25"',
+                inseam: '31"'
+            }
+        };
+
+        function viewMeasurements(clientName) {
+            const modal = document.getElementById('measurementsModal');
+            const modalTitle = document.getElementById('modalClientName');
+            const measurementsGrid = document.getElementById('measurementsGrid');
+            
+            modalTitle.textContent = `${clientName} - Measurements`;
+            
+            const measurements = clientMeasurements[clientName];
+            measurementsGrid.innerHTML = '';
+            
+            Object.entries(measurements).forEach(([key, value]) => {
+                const measurementItem = document.createElement('div');
+                measurementItem.className = 'measurement-item';
+                measurementItem.innerHTML = `
+                    <div class="measurement-label">${key.charAt(0).toUpperCase() + key.slice(1)}</div>
+                    <div class="measurement-value">${value}</div>
+                `;
+                measurementsGrid.appendChild(measurementItem);
+            });
+            
+            modal.classList.add('active');
+        }
+
+        function closeMeasurementsModal() {
+            const modal = document.getElementById('measurementsModal');
+            modal.classList.remove('active');
+        }
+
+        function approveRequest(clientName) {
+            // Simulate approval
+            alert(`Access approved for ${clientName}. They can now share their measurements with you.`);
+            
+            // Remove the request item (in real app, this would update the database)
+            const requestItems = document.querySelectorAll('.request-item');
+            requestItems.forEach(item => {
+                if (item.querySelector('h4').textContent === clientName) {
+                    item.remove();
+                }
+            });
+            
+            // Update stats
+            updateStats();
+        }
+
+        function denyRequest(clientName) {
+            if (confirm(`Are you sure you want to deny access to ${clientName}?`)) {
+                alert(`Access denied for ${clientName}.`);
+                
+                // Remove the request item
+                const requestItems = document.querySelectorAll('.request-item');
+                requestItems.forEach(item => {
+                    if (item.querySelector('h4').textContent === clientName) {
+                        item.remove();
+                    }
+                });
+                
+                updateStats();
+            }
+        }
+
+        function updateStats() {
+            // Update pending requests count
+            const pendingRequests = document.querySelectorAll('.request-item').length;
+            const statsCards = document.querySelectorAll('.stat-card');
+            if (statsCards[2]) {
+                statsCards[2].querySelector('.stat-number').textContent = pendingRequests;
+            }
+            
+            // Update badge
+            const pendingBadge = document.querySelector('.dashboard-card:nth-child(2) .badge');
+            if (pendingBadge) {
+                pendingBadge.textContent = `${pendingRequests} requests`;
+            }
+        }
+
+        function requestAccess() {
+            const email = prompt('Enter client email to request access:');
+            if (email) {
+                alert(`Access request sent to ${email}. You'll be notified when they respond.`);
+            }
+        }
+
+        function updateProfile() {
+            alert('Profile update feature coming soon!');
+        }
+
+        function viewDirectory() {
+            alert('Client directory feature coming soon!');
+        }
+
+        function exportData() {
+            alert('Data export feature coming soon!');
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                alert('Logging out...');
+                // In real app, this would redirect to login page
+            }
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('measurementsModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeMeasurementsModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeMeasurementsModal();
+            }
+        });
+    </script>
+</body>
+</html>

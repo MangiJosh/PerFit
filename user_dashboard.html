@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📏</text></svg>">
+    <title>PerFit - My Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #2d5a27 0%, #4caf50 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #2d5a27 0%, #4caf50 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            margin: 0 auto 1rem;
+        }
+
+        .profile-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-email {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-menu li {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-menu a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            color: #666;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background: linear-gradient(135deg, #2d5a27 0%, #4caf50 100%);
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2d5a27 0%, #4caf50 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76,175,80,0.3);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #666;
+            border: 1px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        /* Measurements Grid */
+        .measurements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .measurement-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .measurement-item:hover {
+            border-color: #4caf50;
+            background: #f0f8f0;
+        }
+
+        .measurement-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .measurement-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .measurement-unit {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #666;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        /* Tailors List */
+        .designer-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .designer-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .designer-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2d5a27 0%, #4caf50 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+
+        .designer-details h4 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .designer-details span {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .designer-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Tailor Cards */
+        .designers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .designer-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .designer-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .designer-card-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #2d5a27 0%, #4caf50 100%);
+            color: white;
+        }
+
+        .designer-card-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .designer-card-avatar {
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .designer-card-details h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .designer-card-details span {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .designer-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .designer-card-body {
+            padding: 1.5rem;
+        }
+
+        .designs-gallery {
+            margin: 1rem 0;
+        }
+
+        .designs-gallery h5 {
+            margin-bottom: 1rem;
+            color: #333;
+            font-size: 0.95rem;
+        }
+
+        .designs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+        }
+
+        .design-item {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: #666;
+        }
+
+        .designer-card-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .designer-card-actions .btn {
+            flex: 1;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.75rem;
+            text-align: center;
+        }
+
+        /* Share Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #999;
+            cursor: pointer;
+        }
+
+        .share-link-container {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .share-link {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            padding: 0.5rem 1rem;
+            background: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn:hover {
+            background: #45a049;
+        }
+
+        .qr-code {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .qr-placeholder {
+            width: 200px;
+            height: 200px;
+            background: #f0f0f0;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4caf50;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .measurements-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            .designer-item {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .designer-actions {
+                justify-content: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">PerFit</div>
+            <div class="user-menu">
+                <div class="user-avatar">JD</div>
+                <span>John Doe</span>
+                <button class="logout-btn">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="profile-section">
+                <div class="profile-avatar">JD</div>
+                <div class="profile-name">John Doe</div>
+                <div class="profile-email">john.doe@email.com</div>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#" class="active" onclick="showSection('dashboard', event)">📊 Dashboard</a></li>
+                    <li><a href="#" onclick="showSection('measurements', event)">📏 My Measurements</a></li>
+                    <li><a href="#" onclick="showSection('sizes', event)">👟 My Sizes</a></li>
+                    <li><a href="#" onclick="showSection('shared', event)">👥 Shared Access</a></li>
+                    <li><a href="#" onclick="showSection('designers', event)">✂️ Find Designers</a></li>
+                    <li><a href="#" onclick="showSection('profile', event)">⚙️ Profile Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Overview -->
+            <div class="stats-grid" id="dashboard-section">
+                <div class="stat-card">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Measurements Stored</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Designers with Access</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">Times Shared</div>
+                </div>
+            </div>
+
+            <!-- My Measurements Section -->
+            <div class="content-card" id="measurements-section">
+                <div class="card-header">
+                    <h2 class="card-title">My Measurements</h2>
+                    <div>
+                        <button class="btn btn-secondary" onclick="editMeasurements()">✏️ Edit</button>
+                        <button class="btn btn-primary" onclick="openShareModal()">🔗 Share</button>
+                    </div>
+                </div>
+                <div class="measurements-grid" id="measurements-grid">
+                    <!-- dynamically rendered -->
+                </div>
+            </div>
+
+            <!-- Share My Sizes Section -->
+            <div class="content-card" id="sizes-section">
+                <div class="card-header">
+                    <h2 class="card-title">My Sizes</h2>
+                    <div>
+                        <button class="btn btn-secondary" onclick="editSizes()">✏️ Edit</button>
+                        <button class="btn btn-primary" onclick="openSizeShareModal()">Share Sizes</button>
+                    </div>
+                </div>
+                <div class="measurements-grid">
+                    <div class="measurement-item">
+                        <div class="measurement-label">Shoe Size</div>
+                        <div class="measurement-value">9<span class="measurement-unit">UK</span></div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="measurement-label">Jean Waist</div>
+                        <div class="measurement-value">34<span class="measurement-unit">in</span></div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="measurement-label">Jacket Size</div>
+                        <div class="measurement-value">42<span class="measurement-unit">EU</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shared Access Section -->
+            <div class="content-card" id="shared-section">
+                <div class="card-header">
+                    <h2 class="card-title">Shared Access</h2>
+                    <button class="btn btn-primary" onclick="openShareModal()">Add Designer</button>
+                </div>
+                <div id="shared-designers-list">
+                    <div class="designer-item">
+                        <div class="designer-info">
+                            <div class="designer-avatar">MS</div>
+                            <div class="designer-details">
+                                <h4>Master Stitch Tailors</h4>
+                                <span>Cape Town • Suits & Formal Wear</span>
+                            </div>
+                        </div>
+                        <div class="designer-actions">
+                            <button class="btn btn-secondary">View</button>
+                            <button class="btn btn-danger" onclick="revokeAccess('designer1')">Revoke</button>
+                        </div>
+                    </div>
+                    <div class="designer-item">
+                        <div class="designer-info">
+                            <div class="designer-avatar">EF</div>
+                            <div class="designer-details">
+                                <h4>Elite Fashion House</h4>
+                                <span>Johannesburg • Bridal & Evening Wear</span>
+                            </div>
+                        </div>
+                        <div class="designer-actions">
+                            <button class="btn btn-secondary">View</button>
+                            <button class="btn btn-danger" onclick="revokeAccess('designer2')">Revoke</button>
+                        </div>
+                    </div>
+                    <div class="designer-item">
+                        <div class="designer-info">
+                            <div class="designer-avatar">QT</div>
+                            <div class="designer-details">
+                                <h4>Quick Tailors</h4>
+                                <span>Durban • Alterations & Repairs</span>
+                            </div>
+                        </div>
+                        <div class="designer-actions">
+                            <button class="btn btn-secondary">View</button>
+                            <button class="btn btn-danger" onclick="revokeAccess('designer3')">Revoke</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Designers Section -->
+            <div class="content-card" id="designers-section" style="display:none;">
+                <div class="card-header">
+                    <h2 class="card-title">Find Designers</h2>
+                    <button class="btn btn-primary">Search Designers</button>
+                </div>
+                <div class="designers-grid">
+                    <div class="designer-card">
+                        <div class="designer-card-header">
+                            <div class="designer-card-info">
+                                <div class="designer-card-avatar">MS</div>
+                                <div class="designer-card-details">
+                                    <h4>Master Stitch Tailors</h4>
+                                    <span>Cape Town • Suits & Formal Wear</span>
+                                </div>
+                            </div>
+                            <div class="designer-rating">
+                                <span>⭐ 4.8</span>
+                                <span>(120 reviews)</span>
+                            </div>
+                        </div>
+                        <div class="designer-card-body">
+                            <div class="designs-gallery">
+                                <h5>Recent Designs</h5>
+                                <div class="designs-grid">
+                                    <div class="design-item">👔</div>
+                                    <div class="design-item">🎩</div>
+                                    <div class="design-item">👕</div>
+                                </div>
+                            </div>
+                            <div class="designer-card-actions">
+                                <button class="btn btn-secondary" onclick="openViewProfileModal('ms')">View Profile</button>
+                                <button class="btn btn-primary" onclick="openContactModal('ms')">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="designer-card">
+                        <div class="designer-card-header">
+                            <div class="designer-card-info">
+                                <div class="designer-card-avatar">EF</div>
+                                <div class="designer-card-details">
+                                    <h4>Elite Fashion House</h4>
+                                    <span>Johannesburg • Bridal & Evening Wear</span>
+                                </div>
+                            </div>
+                            <div class="designer-rating">
+                                <span>⭐ 4.9</span>
+                                <span>(85 reviews)</span>
+                            </div>
+                        </div>
+                        <div class="designer-card-body">
+                            <div class="designs-gallery">
+                                <h5>Recent Designs</h5>
+                                <div class="designs-grid">
+                                    <div class="design-item">👗</div>
+                                    <div class="design-item">💍</div>
+                                    <div class="design-item">👠</div>
+                                </div>
+                            </div>
+                            <div class="designer-card-actions">
+                                <button class="btn btn-secondary" onclick="openViewProfileModal('ef')">View Profile</button>
+                                <button class="btn btn-primary" onclick="openContactModal('ef')">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="designer-card">
+                        <div class="designer-card-header">
+                            <div class="designer-card-info">
+                                <div class="designer-card-avatar">QT</div>
+                                <div class="designer-card-details">
+                                    <h4>Quick Tailors</h4>
+                                    <span>Durban • Alterations & Repairs</span>
+                                </div>
+                            </div>
+                            <div class="designer-rating">
+                                <span>⭐ 4.6</span>
+                                <span>(95 reviews)</span>
+                            </div>
+                        </div>
+                        <div class="designer-card-body">
+                            <div class="designs-gallery">
+                                <h5>Recent Designs</h5>
+                                <div class="designs-grid">
+                                    <div class="design-item">🪡</div>
+                                    <div class="design-item">🧵</div>
+                                    <div class="design-item">✂️</div>
+                                </div>
+                            </div>
+                            <div class="designer-card-actions">
+                                <button class="btn btn-secondary" onclick="openViewProfileModal('qt')">View Profile</button>
+                                <button class="btn btn-primary" onclick="openContactModal('qt')">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="designer-card">
+                        <div class="designer-card-header">
+                            <div class="designer-card-info">
+                                <div class="designer-card-avatar">CS</div>
+                                <div class="designer-card-details">
+                                    <h4>Custom Stitches</h4>
+                                    <span>Pretoria • Casual & Business Wear</span>
+                                </div>
+                            </div>
+                            <div class="designer-rating">
+                                <span>⭐ 4.7</span>
+                                <span>(67 reviews)</span>
+                            </div>
+                        </div>
+                        <div class="designer-card-body">
+                            <div class="designs-gallery">
+                                <h5>Recent Designs</h5>
+                                <div class="designs-grid">
+                                    <div class="design-item">👖</div>
+                                    <div class="design-item">🧥</div>
+                                    <div class="design-item">👔</div>
+                                </div>
+                            </div>
+                            <div class="designer-card-actions">
+                                <button class="btn btn-secondary" onclick="openViewProfileModal('cs')">View Profile</button>
+                                <button class="btn btn-primary" onclick="openContactModal('cs')">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Section -->
+            <div class="content-card" id="profile-section" style="display:none;">
+                <div class="card-header">
+                    <h2 class="card-title">Profile Settings</h2>
+                </div>
+                <div class="empty-state">
+                    <div class="empty-state-icon">⚙️</div>
+                    <h3>Profile Settings Feature Coming Soon</h3>
+                    <p>Update your personal information and preferences.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Share Modal -->
+    <div class="modal" id="shareModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Share Your Measurements</h3>
+                <button class="close-modal" onclick="closeShareModal()">&times;</button>
+            </div>
+            <div>
+                <h4>Share Link</h4>
+                <p style="color: #666; margin-bottom: 1rem;">Share this secure link with your designer to grant them access to your measurements.</p>
+                <div class="share-link-container">
+                    <input type="text" class="share-link" value="https://getmyperfit.com/share/abc123xyz" readonly>
+                    <button class="copy-btn" onclick="copyShareLink()">Copy</button>
+                </div>
+                
+                <h4>QR Code</h4>
+                <p style="color: #666; margin-bottom: 1rem;">Let your designer scan this QR code for instant access.</p>
+                <div class="qr-code">
+                    <div class="qr-placeholder">QR Code will appear here</div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn btn-secondary" onclick="closeShareModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Sizes Modal -->
+    <div class="modal" id="sizeShareModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Share Your Sizes</h3>
+                <button class="close-modal" onclick="closeSizeShareModal()">&times;</button>
+            </div>
+            <div>
+                <h4>Share Link</h4>
+                <p style="color: #666; margin-bottom: 1rem;">Share this link with anyone to let them view your key sizes for gifting or custom orders.</p>
+                <div class="share-link-container">
+                    <input type="text" class="share-link" value="https://getmyperfit.com/sizes/abc123xyz" readonly>
+                    <button class="copy-btn" onclick="copySizeShareLink()">Copy</button>
+                </div>
+                <h4>QR Code</h4>
+                <p style="color: #666; margin-bottom: 1rem;">Let them scan this QR code for instant access to your sizes.</p>
+                <div class="qr-code">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://getmyperfit.com/sizes/abc123xyz" alt="QR Code" style="border-radius:8px;" />
+                </div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn btn-secondary" onclick="closeSizeShareModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Profile Modal -->
+    <div class="modal" id="viewProfileModal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3>Designer Profile</h3>
+                <button class="close-modal" onclick="closeViewProfileModal()">&times;</button>
+            </div>
+            <div id="profileContent">
+                <!-- Profile content will be populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div class="modal" id="contactModal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3>Contact Designer</h3>
+                <button class="close-modal" onclick="closeContactModal()">&times;</button>
+            </div>
+            <div id="contactContent">
+                <!-- Contact content will be populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Measurements Modal -->
+    <div class="modal" id="editMeasurementsModal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3>Edit My Measurements</h3>
+                <button class="close-modal" onclick="closeEditMeasurementsModal()">&times;</button>
+            </div>
+            <div id="editMeasurementsContent">
+                <form id="measurementsForm" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 600;">Height</label>
+                        <input type="number" id="height" value="185" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                        <small style="color: #666;">cm</small>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 600;">Weight</label>
+                        <input type="number" id="weight" value="75" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                        <small style="color: #666;">kg</small>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 600;">Chest</label>
+                        <input type="number" id="chest" value="102" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                        <small style="color: #666;">cm</small>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 600;">Waist</label>
+                        <input type="number" id="waist" value="86" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                        <small style="color: #666;">cm</small>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 600;">Hips</label>
+                        <input type="number" id="hips" value="95" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                        <small style="color: #666;">cm</small>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 600;">Neck</label>
+                        <input type="number" id="neck" value="40" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                        <small style="color: #666;">cm</small>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 600;">Shoulder Width</label>
+                        <input type="number" id="shoulder" value="48" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                        <small style="color: #666;">cm</small>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 600;">Arm Length</label>
+                        <input type="number" id="arm" value="63" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                        <small style="color: #666;">cm</small>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 600;">Inseam</label>
+                        <input type="number" id="inseam" value="82" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                        <small style="color: #666;">cm</small>
+                    </div>
+                </form>
+                <div style="display: flex; gap: 1rem; margin-top: 2rem; justify-content: flex-end;">
+                    <button class="btn btn-secondary" onclick="closeEditMeasurementsModal()">Cancel</button>
+                    <button class="btn btn-primary" onclick="saveMeasurements()">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Sizes Modal -->
+    <div class="modal" id="editSizesModal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h3>Edit My Sizes</h3>
+                <button class="close-modal" onclick="closeEditSizesModal()">&times;</button>
+            </div>
+            <div id="editSizesContent">
+                <form id="sizesForm" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 600;">Shoe Size</label>
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <input type="number" id="shoeSize" value="9" style="flex: 1; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                            <select id="shoeUnit" style="padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                                <option value="UK">UK</option>
+                                <option value="US">US</option>
+                                <option value="EU">EU</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 600;">Jean Waist</label>
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <input type="number" id="jeanWaist" value="34" style="flex: 1; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                            <select id="waistUnit" style="padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                                <option value="in">inches</option>
+                                <option value="cm">cm</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; color: #333; font-weight: 600;">Jacket Size</label>
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <input type="number" id="jacketSize" value="42" style="flex: 1; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                            <select id="jacketUnit" style="padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                                <option value="EU">EU</option>
+                                <option value="US">US</option>
+                                <option value="UK">UK</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <div style="display: flex; gap: 1rem; margin-top: 2rem; justify-content: flex-end;">
+                    <button class="btn btn-secondary" onclick="closeEditSizesModal()">Cancel</button>
+                    <button class="btn btn-primary" onclick="saveSizes()">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div class="modal" id="imageModal">
+        <div class="modal-content" style="max-width: 90vw; max-height: 90vh; padding: 1rem; background: transparent; box-shadow: none;">
+            <div style="position: relative; text-align: center;">
+                <button class="close-modal" onclick="closeImageModal()" style="position: absolute; top: -40px; right: 0; background: rgba(0,0,0,0.5); color: white; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 1.2rem; cursor: pointer;">&times;</button>
+                <button class="nav-arrow" onclick="previousImage()" style="position: absolute; left: -50px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">‹</button>
+                <button class="nav-arrow" onclick="nextImage()" style="position: absolute; right: -50px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">›</button>
+                <img id="modalImage" src="" alt="Full Size Image" style="max-width: 100%; max-height: 80vh; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+                <div style="position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">
+                    <span id="imageCounter">1 / 6</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data
+        let measurements = {
+            height: { value: 185, unit: 'cm' },
+            weight: { value: 75, unit: 'kg' },
+            chest: { value: 102, unit: 'cm' },
+            waist: { value: 86, unit: 'cm' },
+            hips: { value: 95, unit: 'cm' },
+            neck: { value: 40, unit: 'cm' },
+            shoulder: { value: 48, unit: 'cm' },
+            arm: { value: 63, unit: 'cm' },
+            inseam: { value: 82, unit: 'cm' }
+        };
+
+        // Navigation functions
+        function showSection(section, event) {
+            // Update active nav item
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.classList.remove('active');
+            });
+            if (event) event.target.classList.add('active');
+
+            // Hide all sections
+            const sectionIds = [
+                'dashboard-section',
+                'measurements-section',
+                'sizes-section',
+                'shared-section',
+                'designers-section',
+                'profile-section'
+            ];
+            sectionIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
+
+            // Show selected section
+            const showId =
+                section === 'dashboard' ? 'dashboard-section' :
+                section === 'measurements' ? 'measurements-section' :
+                section === 'sizes' ? 'sizes-section' :
+                section === 'shared' ? 'shared-section' :
+                section === 'designers' ? 'designers-section' :
+                section === 'profile' ? 'profile-section' : null;
+            if (showId) {
+                const el = document.getElementById(showId);
+                if (el) el.style.display = '';
+            }
+        }
+
+        // On page load, show only dashboard section
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('dashboard');
+            // Set the dashboard menu item as active
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector('.nav-menu a[onclick*="dashboard"]').classList.add('active');
+        });
+
+        // Share modal functions
+        function openShareModal() {
+            document.getElementById('shareModal').classList.add('active');
+        }
+
+        function closeShareModal() {
+            document.getElementById('shareModal').classList.remove('active');
+        }
+
+        function copyShareLink() {
+            const shareLink = document.querySelector('.share-link');
+            shareLink.select();
+            document.execCommand('copy');
+            
+            const copyBtn = document.querySelector('.copy-btn');
+            const originalText = copyBtn.textContent;
+            copyBtn.textContent = 'Copied!';
+            copyBtn.style.background = '#28a745';
+            
+            setTimeout(() => {
+                copyBtn.textContent = originalText;
+                copyBtn.style.background = '#4caf50';
+            }, 2000);
+        }
+
+        // Measurement functions
+        function editMeasurements() {
+            document.getElementById('editMeasurementsModal').classList.add('active');
+        }
+
+        function closeEditMeasurementsModal() {
+            document.getElementById('editMeasurementsModal').classList.remove('active');
+        }
+
+        function saveMeasurements() {
+            // Get all form values
+            const newMeasurements = {
+                height: { value: parseInt(document.getElementById('height').value), unit: 'cm' },
+                weight: { value: parseInt(document.getElementById('weight').value), unit: 'kg' },
+                chest: { value: parseInt(document.getElementById('chest').value), unit: 'cm' },
+                waist: { value: parseInt(document.getElementById('waist').value), unit: 'cm' },
+                hips: { value: parseInt(document.getElementById('hips').value), unit: 'cm' },
+                neck: { value: parseInt(document.getElementById('neck').value), unit: 'cm' },
+                shoulder: { value: parseInt(document.getElementById('shoulder').value), unit: 'cm' },
+                arm: { value: parseInt(document.getElementById('arm').value), unit: 'cm' },
+                inseam: { value: parseInt(document.getElementById('inseam').value), unit: 'cm' }
+            };
+
+            // Update the measurements object
+            Object.assign(measurements, newMeasurements);
+
+            // Re-render the measurements grid
+            renderMeasurements();
+
+            // Close modal
+            closeEditMeasurementsModal();
+
+            // Show success message
+            alert('Measurements updated successfully!');
+        }
+
+        function revokeAccess(designerId) {
+            if (confirm('Are you sure you want to revoke access for this designer?')) {
+                // In a real app, this would make an API call
+                alert('Access revoked successfully');
+            }
+        }
+
+        // Generate measurement items dynamically
+        function renderMeasurements() {
+            const grid = document.getElementById('measurements-grid');
+            const measurementLabels = {
+                height: 'Height',
+                weight: 'Weight',
+                chest: 'Chest',
+                waist: 'Waist',
+                hips: 'Hips',
+                neck: 'Neck',
+                shoulder: 'Shoulder Width',
+                arm: 'Arm Length',
+                inseam: 'Inseam'
+            };
+
+            grid.innerHTML = '';
+            
+            Object.keys(measurements).forEach(key => {
+                const measurement = measurements[key];
+                const item = document.createElement('div');
+                item.className = 'measurement-item';
+                item.innerHTML = `
+                    <div class="measurement-label">${measurementLabels[key]}</div>
+                    <div class="measurement-value">${measurement.value}<span class="measurement-unit">${measurement.unit}</span></div>
+                `;
+                grid.appendChild(item);
+            });
+        }
+
+        // Call render function on load
+        document.addEventListener('DOMContentLoaded', renderMeasurements);
+
+        // Share Sizes modal functions
+        function openSizeShareModal() {
+            document.getElementById('sizeShareModal').classList.add('active');
+        }
+        function closeSizeShareModal() {
+            document.getElementById('sizeShareModal').classList.remove('active');
+        }
+        function copySizeShareLink() {
+            const shareLink = document.querySelector('#sizeShareModal .share-link');
+            shareLink.select();
+            document.execCommand('copy');
+            const copyBtn = document.querySelector('#sizeShareModal .copy-btn');
+            const originalText = copyBtn.textContent;
+            copyBtn.textContent = 'Copied!';
+            copyBtn.style.background = '#28a745';
+            setTimeout(() => {
+                copyBtn.textContent = originalText;
+                copyBtn.style.background = '#4caf50';
+            }, 2000);
+        }
+        function editSizes() {
+            document.getElementById('editSizesModal').classList.add('active');
+        }
+        function closeEditSizesModal() {
+            document.getElementById('editSizesModal').classList.remove('active');
+        }
+        function saveSizes() {
+            // Get form values
+            const shoeSize = document.getElementById('shoeSize').value;
+            const shoeUnit = document.getElementById('shoeUnit').value;
+            const jeanWaist = document.getElementById('jeanWaist').value;
+            const waistUnit = document.getElementById('waistUnit').value;
+            const jacketSize = document.getElementById('jacketSize').value;
+            const jacketUnit = document.getElementById('jacketUnit').value;
+
+            // Update the sizes display
+            const sizesGrid = document.querySelector('#sizes-section .measurements-grid');
+            sizesGrid.innerHTML = `
+                <div class="measurement-item">
+                    <div class="measurement-label">Shoe Size</div>
+                    <div class="measurement-value">${shoeSize}<span class="measurement-unit">${shoeUnit}</span></div>
+                </div>
+                <div class="measurement-item">
+                    <div class="measurement-label">Jean Waist</div>
+                    <div class="measurement-value">${jeanWaist}<span class="measurement-unit">${waistUnit}</span></div>
+                </div>
+                <div class="measurement-item">
+                    <div class="measurement-label">Jacket Size</div>
+                    <div class="measurement-value">${jacketSize}<span class="measurement-unit">${jacketUnit}</span></div>
+                </div>
+            `;
+
+            // Close modal
+            closeEditSizesModal();
+
+            // Show success message
+            alert('Sizes updated successfully!');
+        }
+
+        // View Profile modal functions
+        function openViewProfileModal(designerId) {
+            const profileData = {
+                'ms': {
+                    name: 'Master Stitch Tailors',
+                    location: 'Cape Town',
+                    specialization: 'Suits & Formal Wear',
+                    rating: '4.8',
+                    reviews: '120',
+                    experience: '15+ years',
+                    services: ['Custom Suits', 'Wedding Attire', 'Business Wear', 'Alterations'],
+                    contact: {
+                        phone: '+27 21 555 0123',
+                        email: 'info@masterstitch.co.za',
+                        address: '123 Fashion Street, Cape Town, 8001'
+                    },
+                    description: 'Specializing in premium custom suits and formal wear. We pride ourselves on attention to detail and perfect fit for every client.',
+                    gallery: [
+                        'https://images.pexels.com/photos/994523/pexels-photo-994523.jpeg?auto=compress&cs=tinysrgb&w=400',
+                        'https://images.pexels.com/photos/1707828/pexels-photo-1707828.jpeg?auto=compress&cs=tinysrgb&w=400',
+                        'https://images.pexels.com/photos/532220/pexels-photo-532220.jpeg?auto=compress&cs=tinysrgb&w=400',
+                        'https://images.pexels.com/photos/1707830/pexels-photo-1707830.jpeg?auto=compress&cs=tinysrgb&w=400',
+                        'https://images.pexels.com/photos/1488463/pexels-photo-1488463.jpeg?auto=compress&cs=tinysrgb&w=400',
+                        'https://images.pexels.com/photos/532221/pexels-photo-532221.jpeg?auto=compress&cs=tinysrgb&w=400'
+                    ]
+                },
+                'ef': {
+                    name: 'Elite Fashion House',
+                    location: 'Johannesburg',
+                    specialization: 'Bridal & Evening Wear',
+                    rating: '4.9',
+                    reviews: '85',
+                    experience: '12+ years',
+                    services: ['Wedding Dresses', 'Evening Gowns', 'Bridal Accessories', 'Alterations'],
+                    contact: {
+                        phone: '+27 11 555 0456',
+                        email: 'hello@elitefashion.co.za',
+                        address: '456 Style Avenue, Johannesburg, 2000'
+                    },
+                    description: 'Creating stunning bridal and evening wear that makes every special occasion unforgettable.',
+                    gallery: [
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+1',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+2',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+3',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+4',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+5',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+6'
+                    ]
+                },
+                'qt': {
+                    name: 'Quick Tailors',
+                    location: 'Durban',
+                    specialization: 'Alterations & Repairs',
+                    rating: '4.6',
+                    reviews: '95',
+                    experience: '8+ years',
+                    services: ['Alterations', 'Repairs', 'Hemming', 'Fitting'],
+                    contact: {
+                        phone: '+27 31 555 0789',
+                        email: 'service@quicktailors.co.za',
+                        address: '789 Repair Road, Durban, 4000'
+                    },
+                    description: 'Fast and reliable alterations and repairs to keep your favorite clothes looking perfect.',
+                    gallery: [
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+1',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+2',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+3',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+4',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+5',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+6'
+                    ]
+                },
+                'cs': {
+                    name: 'Custom Stitches',
+                    location: 'Pretoria',
+                    specialization: 'Casual & Business Wear',
+                    rating: '4.7',
+                    reviews: '67',
+                    experience: '10+ years',
+                    services: ['Casual Wear', 'Business Attire', 'Custom Shirts', 'Pants'],
+                    contact: {
+                        phone: '+27 12 555 0321',
+                        email: 'contact@customstitches.co.za',
+                        address: '321 Tailor Lane, Pretoria, 0001'
+                    },
+                    description: 'Creating comfortable and stylish casual and business wear for everyday excellence.',
+                    gallery: [
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+1',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+2',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+3',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+4',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+5',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+6'
+                    ]
+                }
+            };
+
+            const designer = profileData[designerId];
+            if (designer) {
+                const content = `
+                    <div style="margin-bottom: 2rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                            <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #2d5a27 0%, #4caf50 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; color: white;">
+                                ${designer.name.split(' ').map(word => word[0]).join('')}
+                            </div>
+                            <div>
+                                <h4 style="font-size: 1.5rem; margin-bottom: 0.25rem;">${designer.name}</h4>
+                                <p style="color: #666; margin-bottom: 0.25rem;">${designer.location} • ${designer.specialization}</p>
+                                <p style="color: #4caf50; font-weight: bold;">⭐ ${designer.rating} (${designer.reviews} reviews) • ${designer.experience} experience</p>
+                            </div>
+                        </div>
+                        <p style="color: #333; line-height: 1.6; margin-bottom: 1.5rem;">${designer.description}</p>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h5 style="margin-bottom: 1rem; color: #333;">Services Offered</h5>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                            ${designer.services.map(service => `<span style="background: #f0f8f0; color: #2d5a27; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">${service}</span>`).join('')}
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h5 style="margin-bottom: 1rem; color: #333;">Contact Information</h5>
+                        <div style="background: #f8f9fa; padding: 1rem; border-radius: 10px;">
+                            <p style="margin-bottom: 0.5rem;"><strong>Phone:</strong> ${designer.contact.phone}</p>
+                            <p style="margin-bottom: 0.5rem;"><strong>Email:</strong> ${designer.contact.email}</p>
+                            <p><strong>Address:</strong> ${designer.contact.address}</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 2rem;">
+                        <h5 style="margin-bottom: 1rem; color: #333;">Portfolio Gallery</h5>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
+                            ${designer.gallery.map(item => `<img src="${item}" alt="Tailor Work" style="aspect-ratio: 1; object-fit: cover; border-radius: 8px; width: 100%; height: 100%;">`).join('')}
+                        </div>
+                    </div>
+
+                    <div style="text-align: center;">
+                        <button class="btn btn-primary" onclick="shareWithDesigner('${designerId}')">Share My Measurements</button>
+                    </div>
+                `;
+                document.getElementById('profileContent').innerHTML = content;
+                document.getElementById('viewProfileModal').classList.add('active');
+            }
+        }
+
+        function closeViewProfileModal() {
+            document.getElementById('viewProfileModal').classList.remove('active');
+        }
+
+        function shareWithDesigner(designerId) {
+            closeViewProfileModal();
+            openShareModal();
+        }
+
+        // Add click outside modal to close for profile modal
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('viewProfileModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeViewProfileModal();
+                }
+            });
+        });
+
+        // Contact modal functions
+        function openContactModal(designerId) {
+            const contactData = {
+                'ms': {
+                    name: 'Master Stitch Tailors',
+                    phone: '+27 21 555 0123',
+                    email: 'info@masterstitch.co.za',
+                    address: '123 Fashion Street, Cape Town, 8001',
+                    hours: 'Mon-Fri: 9AM-6PM, Sat: 9AM-3PM'
+                },
+                'ef': {
+                    name: 'Elite Fashion House',
+                    phone: '+27 11 555 0456',
+                    email: 'hello@elitefashion.co.za',
+                    address: '456 Style Avenue, Johannesburg, 2000',
+                    hours: 'Mon-Sat: 10AM-7PM, Sun: 12PM-5PM'
+                },
+                'qt': {
+                    name: 'Quick Tailors',
+                    phone: '+27 31 555 0789',
+                    email: 'service@quicktailors.co.za',
+                    address: '789 Repair Road, Durban, 4000',
+                    hours: 'Mon-Fri: 8AM-5PM, Sat: 8AM-2PM'
+                },
+                'cs': {
+                    name: 'Custom Stitches',
+                    phone: '+27 12 555 0321',
+                    email: 'contact@customstitches.co.za',
+                    address: '321 Tailor Lane, Pretoria, 0001',
+                    hours: 'Mon-Fri: 9AM-6PM, Sat: 9AM-4PM'
+                }
+            };
+
+            const designer = contactData[designerId];
+            if (designer) {
+                const content = `
+                    <div style="margin-bottom: 2rem;">
+                        <h4 style="color: #2d5a27; margin-bottom: 1rem;">${designer.name}</h4>
+                        
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
+                            <h5 style="margin-bottom: 1rem; color: #333;">Contact Information</h5>
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                                <span style="font-size: 1.2rem;">📞</span>
+                                <span><strong>Phone:</strong> ${designer.phone}</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                                <span style="font-size: 1.2rem;">✉️</span>
+                                <span><strong>Email:</strong> ${designer.email}</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                                <span style="font-size: 1.2rem;">📍</span>
+                                <span><strong>Address:</strong> ${designer.address}</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <span style="font-size: 1.2rem;">🕒</span>
+                                <span><strong>Hours:</strong> ${designer.hours}</span>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 2rem;">
+                            <h5 style="margin-bottom: 1rem; color: #333;">Send Message</h5>
+                            <form style="display: flex; flex-direction: column; gap: 1rem;">
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; color: #333;">Subject</label>
+                                    <input type="text" placeholder="e.g., Custom Suit Inquiry" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;">
+                                </div>
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; color: #333;">Message</label>
+                                    <textarea placeholder="Tell us about your project..." rows="4" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; resize: vertical;"></textarea>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
+                                    <input type="checkbox" id="includeMeasurements" style="width: 18px; height: 18px;">
+                                    <label for="includeMeasurements" style="color: #333; font-size: 0.95rem;">Include my measurements with this message</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('contactContent').innerHTML = content;
+                document.getElementById('contactModal').classList.add('active');
+            }
+        }
+
+        function closeContactModal() {
+            document.getElementById('contactModal').classList.remove('active');
+        }
+
+        // Add click outside modal to close for contact modal
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('contactModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeContactModal();
+                }
+            });
+            // Add click outside modal to close for edit measurements modal
+            document.getElementById('editMeasurementsModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeEditMeasurementsModal();
+                }
+            });
+            // Add click outside modal to close for edit sizes modal
+            document.getElementById('editSizesModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeEditSizesModal();
+                }
+            });
+        });
+
+        // Image modal functions
+        let currentGallery = [];
+        let currentImageIndex = 0;
+
+        function openImageModal(imageSrc) {
+            const profileData = {
+                'ms': {
+                    gallery: [
+                        'https://images.pexels.com/photos/994523/pexels-photo-994523.jpeg?auto=compress&cs=tinysrgb&w=400',
+                        'https://images.pexels.com/photos/1707828/pexels-photo-1707828.jpeg?auto=compress&cs=tinysrgb&w=400',
+                        'https://images.pexels.com/photos/532220/pexels-photo-532220.jpeg?auto=compress&cs=tinysrgb&w=400',
+                        'https://images.pexels.com/photos/1707830/pexels-photo-1707830.jpeg?auto=compress&cs=tinysrgb&w=400',
+                        'https://images.pexels.com/photos/1488463/pexels-photo-1488463.jpeg?auto=compress&cs=tinysrgb&w=400',
+                        'https://images.pexels.com/photos/532221/pexels-photo-532221.jpeg?auto=compress&cs=tinysrgb&w=400'
+                    ]
+                },
+                'ef': {
+                    gallery: [
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+1',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+2',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+3',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+4',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+5',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+6'
+                    ]
+                },
+                'qt': {
+                    gallery: [
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+1',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+2',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+3',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+4',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+5',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+6'
+                    ]
+                },
+                'cs': {
+                    gallery: [
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+1',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+2',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+3',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+4',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+5',
+                        'https://via.placeholder.com/400x400?text=Tailor+Work+6'
+                    ]
+                }
+            };
+
+            // Find the gallery and index
+            for (let designerId in profileData) {
+                const gallery = profileData[designerId].gallery;
+                const index = gallery.indexOf(imageSrc);
+                if (index !== -1) {
+                    currentGallery = gallery;
+                    currentImageIndex = index;
+                    break;
+                }
+            }
+
+            document.getElementById('modalImage').src = imageSrc;
+            updateImageCounter();
+            document.getElementById('imageModal').classList.add('active');
+        }
+
+        function previousImage() {
+            if (currentGallery.length > 0) {
+                currentImageIndex = (currentImageIndex - 1 + currentGallery.length) % currentGallery.length;
+                document.getElementById('modalImage').src = currentGallery[currentImageIndex];
+                updateImageCounter();
+            }
+        }
+
+        function nextImage() {
+            if (currentGallery.length > 0) {
+                currentImageIndex = (currentImageIndex + 1) % currentGallery.length;
+                document.getElementById('modalImage').src = currentGallery[currentImageIndex];
+                updateImageCounter();
+            }
+        }
+
+        function updateImageCounter() {
+            document.getElementById('imageCounter').textContent = `${currentImageIndex + 1} / ${currentGallery.length}`;
+        }
+
+        function closeImageModal() {
+            document.getElementById('imageModal').classList.remove('active');
+            currentGallery = [];
+            currentImageIndex = 0;
+        }
+    </script>
+</body>
+</html>
