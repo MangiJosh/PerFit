@@ -872,6 +872,132 @@
             font-size: 0.8rem;
         }
 
+        /* Escrow Table Styles */
+        .escrow-table {
+            overflow-x: auto;
+        }
+
+        .escrow-table table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .escrow-table th {
+            background: linear-gradient(135deg, #2d5a27 0%, #4caf50 100%);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .escrow-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+
+        .escrow-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .escrow-table tr.pending {
+            border-left: 4px solid #ffc107;
+        }
+
+        .escrow-table tr.disputed {
+            border-left: 4px solid #dc3545;
+        }
+
+        .escrow-table tr.completed {
+            border-left: 4px solid #28a745;
+        }
+
+        .table-project-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .table-project-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .table-project-id {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .amount {
+            font-weight: 600;
+            color: #2d5a27;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-badge.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-badge.review {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .status-badge.disputed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-badge.completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .progress-bar {
+            position: relative;
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #2d5a27 0%, #4caf50 100%);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-bar span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .payment-status {
+            color: #28a745;
+            font-weight: 600;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .main-container {
@@ -1482,143 +1608,148 @@
                     </div>
                 </div>
 
-                <!-- Active Projects -->
+                <!-- Active Projects Table -->
                 <div class="escrow-projects">
                     <h3 style="margin-bottom: 1rem; color: #333;">Active Projects</h3>
                     
-                    <div class="project-item pending">
-                        <div class="project-header">
-                            <div class="project-info">
-                                <h4>Custom Suit Design</h4>
-                                <div class="project-designer">Master Stitch Tailors • Cape Town</div>
-                            </div>
-                            <div class="project-amount">R 1,200</div>
-                        </div>
-                        <div class="project-details">
-                            <div class="project-detail">
-                                <div class="project-detail-label">Status</div>
-                                <div class="project-detail-value">In Progress</div>
-                            </div>
-                            <div class="project-detail">
-                                <div class="project-detail-label">Started</div>
-                                <div class="project-detail-value">Dec 15, 2024</div>
-                            </div>
-                            <div class="project-detail">
-                                <div class="project-detail-label">Deadline</div>
-                                <div class="project-detail-value">Jan 15, 2025</div>
-                            </div>
-                            <div class="project-detail">
-                                <div class="project-detail-label">Progress</div>
-                                <div class="project-detail-value">60%</div>
-                            </div>
-                        </div>
-                        <div class="project-actions">
-                            <button class="btn btn-secondary" onclick="viewProjectDetails('project1')">View Details</button>
-                            <button class="btn btn-primary" onclick="approveProject('project1')">Approve & Pay</button>
-                            <button class="btn btn-danger" onclick="disputeProject('project1')">Dispute</button>
-                        </div>
-                    </div>
-
-                    <div class="project-item pending">
-                        <div class="project-header">
-                            <div class="project-info">
-                                <h4>Wedding Dress Alterations</h4>
-                                <div class="project-designer">Elite Fashion House • Johannesburg</div>
-                            </div>
-                            <div class="project-amount">R 800</div>
-                        </div>
-                        <div class="project-details">
-                            <div class="project-detail">
-                                <div class="project-detail-label">Status</div>
-                                <div class="project-detail-value">Review Phase</div>
-                            </div>
-                            <div class="project-detail">
-                                <div class="project-detail-label">Started</div>
-                                <div class="project-detail-value">Dec 20, 2024</div>
-                            </div>
-                            <div class="project-detail">
-                                <div class="project-detail-label">Deadline</div>
-                                <div class="project-detail-value">Jan 10, 2025</div>
-                            </div>
-                            <div class="project-detail">
-                                <div class="project-detail-label">Progress</div>
-                                <div class="project-detail-value">90%</div>
-                            </div>
-                        </div>
-                        <div class="project-actions">
-                            <button class="btn btn-secondary" onclick="viewProjectDetails('project2')">View Details</button>
-                            <button class="btn btn-primary" onclick="approveProject('project2')">Approve & Pay</button>
-                            <button class="btn btn-danger" onclick="disputeProject('project2')">Dispute</button>
-                        </div>
-                    </div>
-
-                    <div class="project-item disputed">
-                        <div class="project-header">
-                            <div class="project-info">
-                                <h4>Casual Shirt Design</h4>
-                                <div class="project-designer">Quick Tailors • Durban</div>
-                            </div>
-                            <div class="project-amount">R 500</div>
-                        </div>
-                        <div class="project-details">
-                            <div class="project-detail">
-                                <div class="project-detail-label">Status</div>
-                                <div class="project-detail-value">Under Review</div>
-                            </div>
-                            <div class="project-detail">
-                                <div class="project-detail-label">Started</div>
-                                <div class="project-detail-value">Dec 10, 2024</div>
-                            </div>
-                            <div class="project-detail">
-                                <div class="project-detail-label">Disputed</div>
-                                <div class="project-detail-value">Dec 28, 2024</div>
-                            </div>
-                            <div class="project-detail">
-                                <div class="project-detail-label">Progress</div>
-                                <div class="project-detail-value">75%</div>
-                            </div>
-                        </div>
-                        <div class="project-actions">
-                            <button class="btn btn-secondary" onclick="viewProjectDetails('project3')">View Details</button>
-                            <button class="btn btn-primary" onclick="resolveDispute('project3')">Resolve Dispute</button>
-                        </div>
+                    <div class="escrow-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Project</th>
+                                    <th>Designer</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Started</th>
+                                    <th>Deadline</th>
+                                    <th>Progress</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="pending">
+                                    <td>
+                                        <div class="table-project-info">
+                                            <div class="table-project-name">Custom Suit Design</div>
+                                            <div class="table-project-id">#PRJ-001</div>
+                                        </div>
+                                    </td>
+                                    <td>Master Stitch Tailors</td>
+                                    <td class="amount">R 1,200</td>
+                                    <td><span class="status-badge pending">In Progress</span></td>
+                                    <td>Dec 15, 2024</td>
+                                    <td>Jan 15, 2025</td>
+                                    <td>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 60%"></div>
+                                            <span>60%</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="table-actions">
+                                            <button class="btn btn-secondary" onclick="viewProjectDetails('project1')">View</button>
+                                            <button class="btn btn-primary" onclick="approveProject('project1')">Approve</button>
+                                            <button class="btn btn-danger" onclick="disputeProject('project1')">Dispute</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="pending">
+                                    <td>
+                                        <div class="table-project-info">
+                                            <div class="table-project-name">Wedding Dress Alterations</div>
+                                            <div class="table-project-id">#PRJ-002</div>
+                                        </div>
+                                    </td>
+                                    <td>Elite Fashion House</td>
+                                    <td class="amount">R 800</td>
+                                    <td><span class="status-badge review">Review Phase</span></td>
+                                    <td>Dec 20, 2024</td>
+                                    <td>Jan 10, 2025</td>
+                                    <td>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 90%"></div>
+                                            <span>90%</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="table-actions">
+                                            <button class="btn btn-secondary" onclick="viewProjectDetails('project2')">View</button>
+                                            <button class="btn btn-primary" onclick="approveProject('project2')">Approve</button>
+                                            <button class="btn btn-danger" onclick="disputeProject('project2')">Dispute</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="disputed">
+                                    <td>
+                                        <div class="table-project-info">
+                                            <div class="table-project-name">Casual Shirt Design</div>
+                                            <div class="table-project-id">#PRJ-003</div>
+                                        </div>
+                                    </td>
+                                    <td>Quick Tailors</td>
+                                    <td class="amount">R 500</td>
+                                    <td><span class="status-badge disputed">Under Review</span></td>
+                                    <td>Dec 10, 2024</td>
+                                    <td>Dec 30, 2024</td>
+                                    <td>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 75%"></div>
+                                            <span>75%</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="table-actions">
+                                            <button class="btn btn-secondary" onclick="viewProjectDetails('project3')">View</button>
+                                            <button class="btn btn-primary" onclick="resolveDispute('project3')">Resolve</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
-                <!-- Completed Projects -->
+                <!-- Completed Projects Table -->
                 <div class="escrow-projects" style="margin-top: 3rem;">
                     <h3 style="margin-bottom: 1rem; color: #333;">Completed Projects</h3>
                     
-                    <div class="project-item completed">
-                        <div class="project-header">
-                            <div class="project-info">
-                                <h4>Business Suit Alterations</h4>
-                                <div class="project-designer">Custom Stitches • Pretoria</div>
-                            </div>
-                            <div class="project-amount">R 600</div>
-                        </div>
-                        <div class="project-details">
-                            <div class="project-detail">
-                                <div class="project-detail-label">Status</div>
-                                <div class="project-detail-value">Completed</div>
-                            </div>
-                            <div class="project-detail">
-                                <div class="project-detail-label">Completed</div>
-                                <div class="project-detail-value">Dec 25, 2024</div>
-                            </div>
-                            <div class="project-detail">
-                                <div class="project-detail-label">Payment</div>
-                                <div class="project-detail-value">Released</div>
-                            </div>
-                            <div class="project-detail">
-                                <div class="project-detail-label">Rating</div>
-                                <div class="project-detail-value">⭐ 5.0</div>
-                            </div>
-                        </div>
-                        <div class="project-actions">
-                            <button class="btn btn-secondary" onclick="viewProjectDetails('project4')">View Details</button>
-                            <button class="btn btn-primary" onclick="reorderProject('project4')">Reorder</button>
-                        </div>
+                    <div class="escrow-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Project</th>
+                                    <th>Designer</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Completed</th>
+                                    <th>Payment</th>
+                                    <th>Rating</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="completed">
+                                    <td>
+                                        <div class="table-project-info">
+                                            <div class="table-project-name">Business Suit Alterations</div>
+                                            <div class="table-project-id">#PRJ-004</div>
+                                        </div>
+                                    </td>
+                                    <td>Custom Stitches</td>
+                                    <td class="amount">R 600</td>
+                                    <td><span class="status-badge completed">Completed</span></td>
+                                    <td>Dec 25, 2024</td>
+                                    <td><span class="payment-status">Released</span></td>
+                                    <td>⭐ 5.0</td>
+                                    <td>
+                                        <div class="table-actions">
+                                            <button class="btn btn-secondary" onclick="viewProjectDetails('project4')">View</button>
+                                            <button class="btn btn-primary" onclick="reorderProject('project4')">Reorder</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
