@@ -551,6 +551,214 @@
             color: #666;
         }
 
+        /* Escrow System Styles */
+        .escrow-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .escrow-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-left: 4px solid #4caf50;
+        }
+
+        .escrow-card.pending {
+            border-left-color: #ffc107;
+        }
+
+        .escrow-card.disputed {
+            border-left-color: #dc3545;
+        }
+
+        .escrow-card.completed {
+            border-left-color: #28a745;
+        }
+
+        .escrow-amount {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2d5a27;
+            margin-bottom: 0.5rem;
+        }
+
+        .escrow-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .escrow-status.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .escrow-status.completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .escrow-status.disputed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .escrow-projects {
+            margin-top: 2rem;
+        }
+
+        .project-item {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid #4caf50;
+        }
+
+        .project-item.pending {
+            border-left-color: #ffc107;
+        }
+
+        .project-item.disputed {
+            border-left-color: #dc3545;
+        }
+
+        .project-item.completed {
+            border-left-color: #28a745;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .project-info h4 {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .project-designer {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .project-amount {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2d5a27;
+        }
+
+        .project-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .project-detail {
+            text-align: center;
+        }
+
+        .project-detail-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 0.25rem;
+        }
+
+        .project-detail-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .project-actions .btn {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        .escrow-form {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .payment-method {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method:hover {
+            border-color: #4caf50;
+            background: #f0f8f0;
+        }
+
+        .payment-method.selected {
+            border-color: #4caf50;
+            background: #f0f8f0;
+        }
+
+        .payment-method-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .main-container {
@@ -612,6 +820,7 @@
                     <li><a href="#" onclick="showSection('sizes', event)">👟 My Sizes</a></li>
                     <li><a href="#" onclick="showSection('shared', event)">👥 Shared Access</a></li>
                     <li><a href="#" onclick="showSection('designers', event)">✂️ Find Designers</a></li>
+                    <li><a href="#" onclick="showSection('escrow', event)">💰 Escrow Payments</a></li>
                     <li><a href="#" onclick="showSection('profile', event)">⚙️ Profile Settings</a></li>
                 </ul>
             </nav>
@@ -852,6 +1061,173 @@
                 </div>
             </div>
 
+            <!-- Escrow Payments Section -->
+            <div class="content-card" id="escrow-section" style="display:none;">
+                <div class="card-header">
+                    <h2 class="card-title">Escrow Payments</h2>
+                    <button class="btn btn-primary" onclick="openNewEscrowModal()">💰 New Escrow Payment</button>
+                </div>
+                
+                <!-- Escrow Overview -->
+                <div class="escrow-overview">
+                    <div class="escrow-card">
+                        <div class="escrow-amount">R 2,500</div>
+                        <div class="escrow-status pending">Pending</div>
+                        <div style="margin-top: 0.5rem; color: #666; font-size: 0.9rem;">Total in Escrow</div>
+                    </div>
+                    <div class="escrow-card">
+                        <div class="escrow-amount">R 1,200</div>
+                        <div class="escrow-status completed">Completed</div>
+                        <div style="margin-top: 0.5rem; color: #666; font-size: 0.9rem;">Released This Month</div>
+                    </div>
+                    <div class="escrow-card">
+                        <div class="escrow-amount">3</div>
+                        <div class="escrow-status pending">Active</div>
+                        <div style="margin-top: 0.5rem; color: #666; font-size: 0.9rem;">Active Projects</div>
+                    </div>
+                </div>
+
+                <!-- Active Projects -->
+                <div class="escrow-projects">
+                    <h3 style="margin-bottom: 1rem; color: #333;">Active Projects</h3>
+                    
+                    <div class="project-item pending">
+                        <div class="project-header">
+                            <div class="project-info">
+                                <h4>Custom Suit Design</h4>
+                                <div class="project-designer">Master Stitch Tailors • Cape Town</div>
+                            </div>
+                            <div class="project-amount">R 1,200</div>
+                        </div>
+                        <div class="project-details">
+                            <div class="project-detail">
+                                <div class="project-detail-label">Status</div>
+                                <div class="project-detail-value">In Progress</div>
+                            </div>
+                            <div class="project-detail">
+                                <div class="project-detail-label">Started</div>
+                                <div class="project-detail-value">Dec 15, 2024</div>
+                            </div>
+                            <div class="project-detail">
+                                <div class="project-detail-label">Deadline</div>
+                                <div class="project-detail-value">Jan 15, 2025</div>
+                            </div>
+                            <div class="project-detail">
+                                <div class="project-detail-label">Progress</div>
+                                <div class="project-detail-value">60%</div>
+                            </div>
+                        </div>
+                        <div class="project-actions">
+                            <button class="btn btn-secondary" onclick="viewProjectDetails('project1')">View Details</button>
+                            <button class="btn btn-primary" onclick="approveProject('project1')">Approve & Pay</button>
+                            <button class="btn btn-danger" onclick="disputeProject('project1')">Dispute</button>
+                        </div>
+                    </div>
+
+                    <div class="project-item pending">
+                        <div class="project-header">
+                            <div class="project-info">
+                                <h4>Wedding Dress Alterations</h4>
+                                <div class="project-designer">Elite Fashion House • Johannesburg</div>
+                            </div>
+                            <div class="project-amount">R 800</div>
+                        </div>
+                        <div class="project-details">
+                            <div class="project-detail">
+                                <div class="project-detail-label">Status</div>
+                                <div class="project-detail-value">Review Phase</div>
+                            </div>
+                            <div class="project-detail">
+                                <div class="project-detail-label">Started</div>
+                                <div class="project-detail-value">Dec 20, 2024</div>
+                            </div>
+                            <div class="project-detail">
+                                <div class="project-detail-label">Deadline</div>
+                                <div class="project-detail-value">Jan 10, 2025</div>
+                            </div>
+                            <div class="project-detail">
+                                <div class="project-detail-label">Progress</div>
+                                <div class="project-detail-value">90%</div>
+                            </div>
+                        </div>
+                        <div class="project-actions">
+                            <button class="btn btn-secondary" onclick="viewProjectDetails('project2')">View Details</button>
+                            <button class="btn btn-primary" onclick="approveProject('project2')">Approve & Pay</button>
+                            <button class="btn btn-danger" onclick="disputeProject('project2')">Dispute</button>
+                        </div>
+                    </div>
+
+                    <div class="project-item disputed">
+                        <div class="project-header">
+                            <div class="project-info">
+                                <h4>Casual Shirt Design</h4>
+                                <div class="project-designer">Quick Tailors • Durban</div>
+                            </div>
+                            <div class="project-amount">R 500</div>
+                        </div>
+                        <div class="project-details">
+                            <div class="project-detail">
+                                <div class="project-detail-label">Status</div>
+                                <div class="project-detail-value">Under Review</div>
+                            </div>
+                            <div class="project-detail">
+                                <div class="project-detail-label">Started</div>
+                                <div class="project-detail-value">Dec 10, 2024</div>
+                            </div>
+                            <div class="project-detail">
+                                <div class="project-detail-label">Disputed</div>
+                                <div class="project-detail-value">Dec 28, 2024</div>
+                            </div>
+                            <div class="project-detail">
+                                <div class="project-detail-label">Progress</div>
+                                <div class="project-detail-value">75%</div>
+                            </div>
+                        </div>
+                        <div class="project-actions">
+                            <button class="btn btn-secondary" onclick="viewProjectDetails('project3')">View Details</button>
+                            <button class="btn btn-primary" onclick="resolveDispute('project3')">Resolve Dispute</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Completed Projects -->
+                <div class="escrow-projects" style="margin-top: 3rem;">
+                    <h3 style="margin-bottom: 1rem; color: #333;">Completed Projects</h3>
+                    
+                    <div class="project-item completed">
+                        <div class="project-header">
+                            <div class="project-info">
+                                <h4>Business Suit Alterations</h4>
+                                <div class="project-designer">Custom Stitches • Pretoria</div>
+                            </div>
+                            <div class="project-amount">R 600</div>
+                        </div>
+                        <div class="project-details">
+                            <div class="project-detail">
+                                <div class="project-detail-label">Status</div>
+                                <div class="project-detail-value">Completed</div>
+                            </div>
+                            <div class="project-detail">
+                                <div class="project-detail-label">Completed</div>
+                                <div class="project-detail-value">Dec 25, 2024</div>
+                            </div>
+                            <div class="project-detail">
+                                <div class="project-detail-label">Payment</div>
+                                <div class="project-detail-value">Released</div>
+                            </div>
+                            <div class="project-detail">
+                                <div class="project-detail-label">Rating</div>
+                                <div class="project-detail-value">⭐ 5.0</div>
+                            </div>
+                        </div>
+                        <div class="project-actions">
+                            <button class="btn btn-secondary" onclick="viewProjectDetails('project4')">View Details</button>
+                            <button class="btn btn-primary" onclick="reorderProject('project4')">Reorder</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Profile Section -->
             <div class="content-card" id="profile-section" style="display:none;">
                 <div class="card-header">
@@ -1059,6 +1435,127 @@
         </div>
     </div>
 
+    <!-- New Escrow Payment Modal -->
+    <div class="modal" id="newEscrowModal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3>Create New Escrow Payment</h3>
+                <button class="close-modal" onclick="closeNewEscrowModal()">&times;</button>
+            </div>
+            <div>
+                <form id="escrowForm">
+                    <div class="form-group">
+                        <label for="projectTitle">Project Title</label>
+                        <input type="text" id="projectTitle" placeholder="e.g., Custom Suit Design" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="designerSelect">Select Designer</label>
+                        <select id="designerSelect" required>
+                            <option value="">Choose a designer...</option>
+                            <option value="ms">Master Stitch Tailors</option>
+                            <option value="ef">Elite Fashion House</option>
+                            <option value="qt">Quick Tailors</option>
+                            <option value="cs">Custom Stitches</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="projectAmount">Project Amount (R)</label>
+                        <input type="number" id="projectAmount" placeholder="0.00" min="0" step="0.01" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="projectDeadline">Project Deadline</label>
+                        <input type="date" id="projectDeadline" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="projectDescription">Project Description</label>
+                        <textarea id="projectDescription" placeholder="Describe the project requirements, materials, and specifications..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Payment Method</label>
+                        <div class="payment-methods">
+                            <div class="payment-method" onclick="selectPaymentMethod('card')">
+                                <div class="payment-method-icon">💳</div>
+                                <div>Credit/Debit Card</div>
+                            </div>
+                            <div class="payment-method" onclick="selectPaymentMethod('bank')">
+                                <div class="payment-method-icon">🏦</div>
+                                <div>Bank Transfer</div>
+                            </div>
+                            <div class="payment-method" onclick="selectPaymentMethod('paypal')">
+                                <div class="payment-method-icon">📱</div>
+                                <div>PayPal</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem; justify-content: flex-end;">
+                        <button type="button" class="btn btn-secondary" onclick="closeNewEscrowModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Create Escrow Payment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Details Modal -->
+    <div class="modal" id="projectDetailsModal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3>Project Details</h3>
+                <button class="close-modal" onclick="closeProjectDetailsModal()">&times;</button>
+            </div>
+            <div id="projectDetailsContent">
+                <!-- Project details will be populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Dispute Modal -->
+    <div class="modal" id="disputeModal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3>File Dispute</h3>
+                <button class="close-modal" onclick="closeDisputeModal()">&times;</button>
+            </div>
+            <div>
+                <form id="disputeForm">
+                    <div class="form-group">
+                        <label for="disputeReason">Reason for Dispute</label>
+                        <select id="disputeReason" required>
+                            <option value="">Select a reason...</option>
+                            <option value="quality">Quality Issues</option>
+                            <option value="timeline">Missed Deadline</option>
+                            <option value="specifications">Not Meeting Specifications</option>
+                            <option value="communication">Poor Communication</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="disputeDescription">Detailed Description</label>
+                        <textarea id="disputeDescription" placeholder="Please provide detailed information about the issue..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="disputeEvidence">Evidence (Optional)</label>
+                        <input type="file" id="disputeEvidence" accept="image/*,.pdf,.doc,.docx">
+                        <small style="color: #666;">Upload photos, documents, or other evidence to support your dispute</small>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem; justify-content: flex-end;">
+                        <button type="button" class="btn btn-secondary" onclick="closeDisputeModal()">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Submit Dispute</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Image Modal -->
     <div class="modal" id="imageModal">
         <div class="modal-content" style="max-width: 90vw; max-height: 90vh; padding: 1rem; background: transparent; box-shadow: none;">
@@ -1103,6 +1600,7 @@
                 'sizes-section',
                 'shared-section',
                 'designers-section',
+                'escrow-section',
                 'profile-section'
             ];
             sectionIds.forEach(id => {
@@ -1117,6 +1615,7 @@
                 section === 'sizes' ? 'sizes-section' :
                 section === 'shared' ? 'shared-section' :
                 section === 'designers' ? 'designers-section' :
+                section === 'escrow' ? 'escrow-section' :
                 section === 'profile' ? 'profile-section' : null;
             if (showId) {
                 const el = document.getElementById(showId);
@@ -1655,6 +2154,287 @@
             currentGallery = [];
             currentImageIndex = 0;
         }
+
+        // Escrow System Functions
+        function openNewEscrowModal() {
+            document.getElementById('newEscrowModal').classList.add('active');
+            // Set default deadline to 30 days from now
+            const defaultDate = new Date();
+            defaultDate.setDate(defaultDate.getDate() + 30);
+            document.getElementById('projectDeadline').value = defaultDate.toISOString().split('T')[0];
+        }
+
+        function closeNewEscrowModal() {
+            document.getElementById('newEscrowModal').classList.remove('active');
+            document.getElementById('escrowForm').reset();
+            // Clear payment method selection
+            document.querySelectorAll('.payment-method').forEach(method => {
+                method.classList.remove('selected');
+            });
+        }
+
+        function selectPaymentMethod(method) {
+            // Remove selection from all methods
+            document.querySelectorAll('.payment-method').forEach(m => {
+                m.classList.remove('selected');
+            });
+            // Add selection to clicked method
+            event.target.closest('.payment-method').classList.add('selected');
+        }
+
+        function viewProjectDetails(projectId) {
+            const projectData = {
+                'project1': {
+                    title: 'Custom Suit Design',
+                    designer: 'Master Stitch Tailors',
+                    amount: 'R 1,200',
+                    status: 'In Progress',
+                    started: 'Dec 15, 2024',
+                    deadline: 'Jan 15, 2025',
+                    progress: '60%',
+                    description: 'Custom tailored suit with premium wool fabric. Includes jacket, trousers, and vest. Measurements have been shared and initial consultation completed.',
+                    milestones: [
+                        { name: 'Consultation & Measurements', completed: true, date: 'Dec 15, 2024' },
+                        { name: 'Fabric Selection', completed: true, date: 'Dec 18, 2024' },
+                        { name: 'Initial Fitting', completed: true, date: 'Dec 25, 2024' },
+                        { name: 'Final Fitting', completed: false, date: 'Jan 10, 2025' },
+                        { name: 'Delivery', completed: false, date: 'Jan 15, 2025' }
+                    ]
+                },
+                'project2': {
+                    title: 'Wedding Dress Alterations',
+                    designer: 'Elite Fashion House',
+                    amount: 'R 800',
+                    status: 'Review Phase',
+                    started: 'Dec 20, 2024',
+                    deadline: 'Jan 10, 2025',
+                    progress: '90%',
+                    description: 'Wedding dress alterations including hem adjustment, bust fitting, and sleeve modifications. Dress is ready for final fitting.',
+                    milestones: [
+                        { name: 'Initial Assessment', completed: true, date: 'Dec 20, 2024' },
+                        { name: 'Hem Adjustment', completed: true, date: 'Dec 22, 2024' },
+                        { name: 'Bust Fitting', completed: true, date: 'Dec 26, 2024' },
+                        { name: 'Sleeve Modifications', completed: true, date: 'Dec 28, 2024' },
+                        { name: 'Final Fitting', completed: false, date: 'Jan 8, 2025' }
+                    ]
+                },
+                'project3': {
+                    title: 'Casual Shirt Design',
+                    designer: 'Quick Tailors',
+                    amount: 'R 500',
+                    status: 'Under Review',
+                    started: 'Dec 10, 2024',
+                    deadline: 'Dec 30, 2024',
+                    progress: '75%',
+                    description: 'Custom casual shirt with specific fabric requirements. Dispute filed regarding fabric quality and fit.',
+                    milestones: [
+                        { name: 'Design Consultation', completed: true, date: 'Dec 10, 2024' },
+                        { name: 'Fabric Selection', completed: true, date: 'Dec 12, 2024' },
+                        { name: 'Initial Fitting', completed: true, date: 'Dec 20, 2024' },
+                        { name: 'Final Delivery', completed: false, date: 'Dec 30, 2024' }
+                    ]
+                },
+                'project4': {
+                    title: 'Business Suit Alterations',
+                    designer: 'Custom Stitches',
+                    amount: 'R 600',
+                    status: 'Completed',
+                    started: 'Dec 1, 2024',
+                    completed: 'Dec 25, 2024',
+                    progress: '100%',
+                    description: 'Business suit alterations including jacket and trouser adjustments. Project completed successfully with excellent quality.',
+                    milestones: [
+                        { name: 'Initial Assessment', completed: true, date: 'Dec 1, 2024' },
+                        { name: 'Jacket Adjustments', completed: true, date: 'Dec 10, 2024' },
+                        { name: 'Trouser Adjustments', completed: true, date: 'Dec 15, 2024' },
+                        { name: 'Final Fitting', completed: true, date: 'Dec 20, 2024' },
+                        { name: 'Delivery', completed: true, date: 'Dec 25, 2024' }
+                    ]
+                }
+            };
+
+            const project = projectData[projectId];
+            if (project) {
+                const content = `
+                    <div style="margin-bottom: 2rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem;">
+                            <div>
+                                <h4 style="color: #2d5a27; margin-bottom: 0.5rem;">${project.title}</h4>
+                                <p style="color: #666; margin-bottom: 0.5rem;">${project.designer}</p>
+                                <div style="display: flex; gap: 1rem; align-items: center;">
+                                    <span style="font-size: 1.2rem; font-weight: bold; color: #2d5a27;">${project.amount}</span>
+                                    <span style="padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; background: #d4edda; color: #155724;">${project.status}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
+                            <h5 style="margin-bottom: 1rem; color: #333;">Project Description</h5>
+                            <p style="color: #666; line-height: 1.6;">${project.description}</p>
+                        </div>
+
+                        <div style="margin-bottom: 2rem;">
+                            <h5 style="margin-bottom: 1rem; color: #333;">Project Timeline</h5>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                                <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px;">
+                                    <div style="font-size: 0.8rem; color: #666; margin-bottom: 0.25rem;">Started</div>
+                                    <div style="font-weight: 600; color: #333;">${project.started}</div>
+                                </div>
+                                <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px;">
+                                    <div style="font-size: 0.8rem; color: #666; margin-bottom: 0.25rem;">Deadline</div>
+                                    <div style="font-weight: 600; color: #333;">${project.deadline}</div>
+                                </div>
+                                <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px;">
+                                    <div style="font-size: 0.8rem; color: #666; margin-bottom: 0.25rem;">Progress</div>
+                                    <div style="font-weight: 600; color: #333;">${project.progress}</div>
+                                </div>
+                                ${project.completed ? `
+                                <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px;">
+                                    <div style="font-size: 0.8rem; color: #666; margin-bottom: 0.25rem;">Completed</div>
+                                    <div style="font-weight: 600; color: #333;">${project.completed}</div>
+                                </div>
+                                ` : ''}
+                            </div>
+                        </div>
+
+                        <div>
+                            <h5 style="margin-bottom: 1rem; color: #333;">Project Milestones</h5>
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                ${project.milestones.map(milestone => `
+                                    <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: ${milestone.completed ? '#d4edda' : '#f8f9fa'}; border-radius: 8px;">
+                                        <div style="width: 20px; height: 20px; border-radius: 50%; background: ${milestone.completed ? '#28a745' : '#ddd'}; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem;">
+                                            ${milestone.completed ? '✓' : ''}
+                                        </div>
+                                        <div style="flex: 1;">
+                                            <div style="font-weight: 600; color: #333;">${milestone.name}</div>
+                                            <div style="font-size: 0.8rem; color: #666;">${milestone.date}</div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('projectDetailsContent').innerHTML = content;
+                document.getElementById('projectDetailsModal').classList.add('active');
+            }
+        }
+
+        function closeProjectDetailsModal() {
+            document.getElementById('projectDetailsModal').classList.remove('active');
+        }
+
+        function approveProject(projectId) {
+            if (confirm('Are you sure you want to approve this project and release payment to the designer?')) {
+                // In a real app, this would make an API call to release escrow funds
+                alert('Payment released successfully! The designer has been paid R ' + 
+                    (projectId === 'project1' ? '1,200' : 
+                     projectId === 'project2' ? '800' : 
+                     projectId === 'project3' ? '500' : '600'));
+                
+                // Update the project status in the UI
+                const projectElement = document.querySelector(`[onclick="approveProject('${projectId}')"]`).closest('.project-item');
+                projectElement.className = 'project-item completed';
+                projectElement.querySelector('.escrow-status').textContent = 'Completed';
+                projectElement.querySelector('.escrow-status').className = 'escrow-status completed';
+            }
+        }
+
+        function disputeProject(projectId) {
+            document.getElementById('disputeModal').classList.add('active');
+            // Store the project ID for form submission
+            document.getElementById('disputeForm').setAttribute('data-project-id', projectId);
+        }
+
+        function closeDisputeModal() {
+            document.getElementById('disputeModal').classList.remove('active');
+            document.getElementById('disputeForm').reset();
+        }
+
+        function resolveDispute(projectId) {
+            if (confirm('Would you like to resolve this dispute and continue with the project?')) {
+                alert('Dispute resolved. The project will continue as planned.');
+                // Update the project status in the UI
+                const projectElement = document.querySelector(`[onclick="resolveDispute('${projectId}')"]`).closest('.project-item');
+                projectElement.className = 'project-item pending';
+            }
+        }
+
+        function reorderProject(projectId) {
+            if (confirm('Would you like to place a new order with the same designer?')) {
+                openNewEscrowModal();
+                // Pre-fill the designer selection based on the completed project
+                const designerMap = {
+                    'project4': 'cs' // Custom Stitches
+                };
+                if (designerMap[projectId]) {
+                    document.getElementById('designerSelect').value = designerMap[projectId];
+                }
+            }
+        }
+
+        // Handle escrow form submission
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('escrowForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(this);
+                const projectTitle = document.getElementById('projectTitle').value;
+                const amount = document.getElementById('projectAmount').value;
+                const designer = document.getElementById('designerSelect').value;
+                
+                if (!designer) {
+                    alert('Please select a designer');
+                    return;
+                }
+                
+                const selectedPaymentMethod = document.querySelector('.payment-method.selected');
+                if (!selectedPaymentMethod) {
+                    alert('Please select a payment method');
+                    return;
+                }
+                
+                // In a real app, this would process the payment and create the escrow
+                alert(`Escrow payment of R ${amount} created successfully for "${projectTitle}"! The designer has been notified and work can begin.`);
+                closeNewEscrowModal();
+            });
+
+            // Handle dispute form submission
+            document.getElementById('disputeForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const projectId = this.getAttribute('data-project-id');
+                const reason = document.getElementById('disputeReason').value;
+                const description = document.getElementById('disputeDescription').value;
+                
+                // In a real app, this would submit the dispute to the platform
+                alert('Dispute submitted successfully. Our team will review and contact you within 24 hours.');
+                closeDisputeModal();
+                
+                // Update the project status in the UI
+                const projectElement = document.querySelector(`[onclick="disputeProject('${projectId}')"]`).closest('.project-item');
+                projectElement.className = 'project-item disputed';
+            });
+
+            // Add click outside modal to close for escrow modals
+            document.getElementById('newEscrowModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeNewEscrowModal();
+                }
+            });
+            
+            document.getElementById('projectDetailsModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeProjectDetailsModal();
+                }
+            });
+            
+            document.getElementById('disputeModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeDisputeModal();
+                }
+            });
+        });
     </script>
 </body>
 </html>
