@@ -326,7 +326,7 @@
         /* Tailor Cards */
         .designers-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 2rem;
             margin-top: 1rem;
         }
@@ -960,7 +960,6 @@
                     <li><a href="#" class="active" onclick="showSection('dashboard', event)">📊 Dashboard</a></li>
                     <li><a href="#" onclick="showSection('measurements', event)">📏 My Measurements</a></li>
                     <li><a href="#" onclick="showSection('sizes', event)">👟 My Sizes</a></li>
-                    <li><a href="#" onclick="showSection('shared', event)">👥 Shared Access</a></li>
                     <li><a href="#" onclick="showSection('designers', event)">✂️ Find Designers</a></li>
                     <li><a href="#" onclick="showSection('escrow', event)">💰 Escrow Payments</a></li>
                     <li><a href="#" onclick="showSection('profile', event)">⚙️ Profile Settings</a></li>
@@ -986,47 +985,8 @@
                 </div>
             </div>
 
-            <!-- My Measurements Section -->
-            <div class="content-card" id="measurements-section">
-                <div class="card-header">
-                    <h2 class="card-title">My Measurements</h2>
-                    <div>
-                        <button class="btn btn-secondary" onclick="editMeasurements()">✏️ Edit</button>
-                        <button class="btn btn-primary" onclick="openShareModal()">🔗 Share</button>
-                    </div>
-                </div>
-                <div class="measurements-grid" id="measurements-grid">
-                    <!-- dynamically rendered -->
-                </div>
-            </div>
-
-            <!-- Share My Sizes Section -->
-            <div class="content-card" id="sizes-section">
-                <div class="card-header">
-                    <h2 class="card-title">My Sizes</h2>
-                    <div>
-                        <button class="btn btn-secondary" onclick="editSizes()">✏️ Edit</button>
-                        <button class="btn btn-primary" onclick="openSizeShareModal()">Share Sizes</button>
-                    </div>
-                </div>
-                <div class="measurements-grid">
-                    <div class="measurement-item">
-                        <div class="measurement-label">Shoe Size</div>
-                        <div class="measurement-value">9<span class="measurement-unit">UK</span></div>
-                    </div>
-                    <div class="measurement-item">
-                        <div class="measurement-label">Jean Waist</div>
-                        <div class="measurement-value">34<span class="measurement-unit">in</span></div>
-                    </div>
-                    <div class="measurement-item">
-                        <div class="measurement-label">Jacket Size</div>
-                        <div class="measurement-value">42<span class="measurement-unit">EU</span></div>
-                    </div>
-                </div>
-            </div>
-
             <!-- Shared Access Section -->
-            <div class="content-card" id="shared-section">
+            <div class="content-card">
                 <div class="card-header">
                     <h2 class="card-title">Shared Access</h2>
                     <button class="btn btn-primary" onclick="openShareModal()">Add Designer</button>
@@ -1073,6 +1033,47 @@
                     </div>
                 </div>
             </div>
+
+            <!-- My Measurements Section -->
+            <div class="content-card" id="measurements-section">
+                <div class="card-header">
+                    <h2 class="card-title">My Measurements</h2>
+                    <div>
+                        <button class="btn btn-secondary" onclick="editMeasurements()">✏️ Edit</button>
+                        <button class="btn btn-primary" onclick="openShareModal()">🔗 Share</button>
+                    </div>
+                </div>
+                <div class="measurements-grid" id="measurements-grid">
+                    <!-- dynamically rendered -->
+                </div>
+            </div>
+
+            <!-- Share My Sizes Section -->
+            <div class="content-card" id="sizes-section">
+                <div class="card-header">
+                    <h2 class="card-title">My Sizes</h2>
+                    <div>
+                        <button class="btn btn-secondary" onclick="editSizes()">✏️ Edit</button>
+                        <button class="btn btn-primary" onclick="openSizeShareModal()">Share Sizes</button>
+                    </div>
+                </div>
+                <div class="measurements-grid">
+                    <div class="measurement-item">
+                        <div class="measurement-label">Shoe Size</div>
+                        <div class="measurement-value">9<span class="measurement-unit">UK</span></div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="measurement-label">Jean Waist</div>
+                        <div class="measurement-value">34<span class="measurement-unit">in</span></div>
+                    </div>
+                    <div class="measurement-item">
+                        <div class="measurement-label">Jacket Size</div>
+                        <div class="measurement-value">42<span class="measurement-unit">EU</span></div>
+                    </div>
+                </div>
+            </div>
+
+
 
             <!-- Designers Section -->
             <div class="content-card" id="designers-section" style="display:none;">
@@ -1987,7 +1988,6 @@
                 'dashboard-section',
                 'measurements-section',
                 'sizes-section',
-                'shared-section',
                 'designers-section',
                 'escrow-section',
                 'profile-section'
@@ -2002,7 +2002,6 @@
                 section === 'dashboard' ? 'dashboard-section' :
                 section === 'measurements' ? 'measurements-section' :
                 section === 'sizes' ? 'sizes-section' :
-                section === 'shared' ? 'shared-section' :
                 section === 'designers' ? 'designers-section' :
                 section === 'escrow' ? 'escrow-section' :
                 section === 'profile' ? 'profile-section' : null;
